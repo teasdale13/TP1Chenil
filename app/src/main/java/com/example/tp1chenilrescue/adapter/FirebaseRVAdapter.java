@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.tp1chenilrescue.R;
-import com.example.tp1chenilrescue.dialogfragment.AddBreed;
 import com.example.tp1chenilrescue.models.Race;
 
 import java.util.ArrayList;
@@ -14,6 +13,11 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ * @author Kevin Teasdale-Dubé
+ *
+ * Adapter du RecyclerView qui affiche les races qui proviennent de Firebase.
+ */
 public class FirebaseRVAdapter extends RecyclerView.Adapter<FirebaseRVAdapter.MyViewHolder> {
 
     private ArrayList<Race> races;
@@ -44,7 +48,7 @@ public class FirebaseRVAdapter extends RecyclerView.Adapter<FirebaseRVAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        textView.setText( races.get( position ).getName() );
+        textView.setText( races.get( position ).getName()) ;
 
         textView.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -54,7 +58,6 @@ public class FirebaseRVAdapter extends RecyclerView.Adapter<FirebaseRVAdapter.My
         } );
 
     }
-
 
     @Override
     public int getItemCount() {

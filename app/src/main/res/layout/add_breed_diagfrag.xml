@@ -29,13 +29,14 @@
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textNoSuggestions"/>
+            android:inputType="textNoSuggestions"
+            android:background="#999999"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/firebaseSearchRV"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:visibility="invisible"/>
+            android:layout_height="150dp"
+            android:visibility="gone"/>
 
 
 

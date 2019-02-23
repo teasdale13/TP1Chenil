@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * @author Kevin Teasdale-Dubé
- * <p>
+ *
  * DialogFragment qui affiche un formulaire pour ajouter une race à la base de données.
  */
 public class AddBreed extends DialogFragment {
@@ -77,9 +77,6 @@ public class AddBreed extends DialogFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate( inflater, R.layout.add_breed_diagfrag, container, false );
 
-        recherche = binding.searchBar.toString();
-
-
         binding.searchBar.setOnQueryTextListener( new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
@@ -88,35 +85,15 @@ public class AddBreed extends DialogFragment {
                 reference = database.getReference( "race" );
 
                 reference.orderByKey().addValueEventListener( new ValueEventListener() {
+
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        ArrayList<Race> races = new ArrayList<>();
-                        if (dataSnapshot.getValue() != null) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                Race race = snapshot.getValue( Race.class );
-                                races.add( race );
-                            }
-                        }
-
-                        ArrayList<Race> raceArrayList = new ArrayList<>(  );
-                        for (Race mRace : races){
-                            if (mRace.getName().toUpperCase().contains( query.toUpperCase() )){
-                                raceArrayList.add( mRace );
-                            }
-                        }
-                        if (raceArrayList.size() > 0){
+                        ArrayList<Race> races = getDataFromFirebase( dataSnapshot, query );
+                        if (races.size() > 0){
                             binding.firebaseSearchRV.setVisibility( View.VISIBLE );
                         }
-                        recyclerView = binding.firebaseSearchRV;
-                        recyclerView.setLayoutManager( new LinearLayoutManager( getContext() ) );
-                        adapter = new FirebaseRVAdapter(raceArrayList );
-                        adapter.setListener( new FirebaseRVAdapter.BreedListener() {
-                            @Override
-                            public void onBreedListener(Race race) {
-                                binding.setBreed( race );
-                            }
-                        } );
-                        recyclerView.setAdapter( adapter );
+                        setUpRecyclerView( races );
+
                     }
 
                     @Override
@@ -143,13 +120,57 @@ public class AddBreed extends DialogFragment {
         return binding.getRoot();
     }
 
+    /**
+     * Méthode qui paramètre le RecyclerView qui se retrouve sous le SearchView.
+     * @param list liste de Races à afficher.
+     */
+    private void setUpRecyclerView(ArrayList<Race> list) {
+
+        recyclerView = binding.firebaseSearchRV;
+        recyclerView.setLayoutManager( new LinearLayoutManager( getContext() ) );
+        adapter = new FirebaseRVAdapter(list );
+        adapter.setListener( new FirebaseRVAdapter.BreedListener() {
+            @Override
+            public void onBreedListener(Race race) {
+                /* Bind la race qui a été sélectionnée dans le RecyclerView avec les EditText */
+                binding.setBreed( race );
+            }
+        } );
+        recyclerView.setAdapter( adapter );
+    }
+
+    /**
+     * Méthode qui fait le tour de tous les Races qui sont dans Firebase et qui en fait un ArrayListe
+     * temporaire et qui procède à la comparaison avec la "query" entrée par l'utilisateur et creer
+     * la Liste finale à afficher dans un RecyclerView.
+     *
+     * @param dataSnapshot DataSnapshot qui contient tout les informations de la Query fait à Firebase.
+     * @param query Requête (String) entrée par l'utilisateur qui sert à faire le tri des données.
+     * @return La liste de races à afficher.
+     */
+    private ArrayList<Race> getDataFromFirebase(DataSnapshot dataSnapshot, String query) {
+        ArrayList<Race> races = new ArrayList<>();
+        ArrayList<Race> raceArrayList = new ArrayList<>(  );
+
+        if (dataSnapshot.getValue() != null) {
+            /* Fait une ArrayList avec toutes les races de Firebase. */
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                Race race = snapshot.getValue( Race.class );
+                races.add( race );
+            }
+        }
+        for (Race mRace : races){
+            /* Compare le nom de la race avec la saisie de l'utilisateur. */
+            if (mRace.getName().toUpperCase().contains( query.toUpperCase() )){
+                raceArrayList.add( mRace );
+            }
+        }
+        return raceArrayList;
+    }
+
     public void onButtonPressed(Race race, int index) {
         mListener.onFragmentInteraction( race, index );
         this.dismiss();
-    }
-
-    public void setRaceToFragment(Race raceToFragment){
-        binding.setBreed( raceToFragment );
     }
 
     @Override

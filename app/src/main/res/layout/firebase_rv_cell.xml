@@ -3,10 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="50dp">
 
-    <TextView
-        android:id="@+id/firebaseTextView"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text=""/>
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/firebaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textSize="15sp" />
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
