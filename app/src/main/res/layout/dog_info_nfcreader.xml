@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="chien"
+            type="com.example.tp1chenilrescue.models.Chien" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".dialogfragment.DogInfoNFCReader">
+
+        <TextView
+            android:id="@+id/infoIdisplay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Id : ` + chien.id}" />
+
+
+        <TextView
+            android:id="@+id/infoNomDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Nom : ` + chien.nom}" />
+
+
+        <TextView
+            android:id="@+id/infoRaceDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Race : ` + chien.race}" />
+
+
+        <TextView
+            android:id="@+id/infoSexeDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Sexe : ` + chien.sexe}" />
+
+
+        <TextView
+            android:id="@+id/infoNaissanceDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Date de naissance : ` + chien.date_naissance}" />
+
+
+        <TextView
+            android:id="@+id/infoPereDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Père : ` + chien.pere}" />
+
+
+        <TextView
+            android:id="@+id/infoMereDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:text="@{`Mère : ` + chien.mere}" />
+
+
+        <Button
+            android:id="@+id/infoBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OK" />
+
+
+    </LinearLayout>
+</layout>
+

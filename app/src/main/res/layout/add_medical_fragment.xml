@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="poids"
+            type="com.example.tp1chenilrescue.models.Poids"/>
+        <variable
+            name="chien"
+            type="com.example.tp1chenilrescue.models.Chien"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp"
+        android:minWidth="350dp"
+        android:minHeight="400dp"
+        tools:context=".dialogfragment.AddMedical">
+
+        <TextView
+            android:id="@+id/txtPoids"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="Entrez le poids"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Poids en lbs."
+            android:text="@={poids.poids}"
+            android:inputType="numberDecimal"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textSize="20sp"/>
+
+        <DatePicker
+            android:id="@+id/datePickerPoids"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:padding="-20dp"
+            android:year="@={poids.year}"
+            android:month="@={poids.month}"
+            android:day="@={poids.day}"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Confirmer" />
+
+
+    </LinearLayout>
+</layout>

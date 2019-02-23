@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1072439159943",
+    "firebase_url": "https://tp1chenilrescue.firebaseio.com",
+    "project_id": "tp1chenilrescue",
+    "storage_bucket": "tp1chenilrescue.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072439159943:android:100a2913c73233f0",
+        "android_client_info": {
+          "package_name": "com.example.tp1chenilrescue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072439159943-0bu864h8er73d348mafatavvtk2nj74c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tp1chenilrescue",
+            "certificate_hash": "261bf975b121f13a92f5ae474ecd5d3481fb5c84"
+          }
+        },
+        {
+          "client_id": "1072439159943-tvrj7k22qv1h0o6eqllvjcev59r66u1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4p6lc3p1XDS5AQ5VfLxz9M8L-PrjIGSs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072439159943-tvrj7k22qv1h0o6eqllvjcev59r66u1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

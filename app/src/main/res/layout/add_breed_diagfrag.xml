@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="breed"
+            type="com.example.tp1chenilrescue.models.Race" />
+    </data>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp"
+        tools:context=".dialogfragment.AddBreed">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rechercher sur base de données en ligne"
+            android:textSize="16sp"/>
+
+        <SearchView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/firebaseSearchRV"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:visibility="invisible"/>
+
+
+
+        <TextView
+            android:id="@+id/txtAddBreed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="Informations sur la race." />
+
+        <EditText
+            android:id="@+id/editBreedName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nom de la race"
+            android:inputType="textPersonName"
+            android:text="@={breed.name}" />
+
+        <TextView
+            android:id="@+id/txtCountryBreed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Pays d'origine" />
+
+        <EditText
+            android:id="@+id/editBreedCounty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pays d'origine"
+            android:inputType="textPersonName"
+            android:text="@={breed.country}" />
+
+        <TextView
+            android:id="@+id/txtBreedNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Notes" />
+
+        <EditText
+            android:id="@+id/editBreedNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Notes"
+            android:inputType="textPersonName"
+            android:text="@={breed.note}" />
+
+
+        <Button
+            android:id="@+id/btnBreedConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmer" />
+
+
+    </LinearLayout>
+
+</layout>
+

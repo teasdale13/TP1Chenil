@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Affichage des listes">
+
+        <menu android:checkableBehavior="single">
+            <item
+                android:id="@+id/chenil_menu"
+                android:icon="@drawable/dog_house"
+                android:title="Chenil" />
+
+            <item
+                android:id="@+id/chien_menu"
+                android:icon="@drawable/dog_paw"
+                android:title="Chiens par chenil" />
+
+            <item
+                android:id="@+id/chien_list"
+                android:icon="@drawable/dog_paw"
+                android:title="Tous les chiens">
+
+            </item>
+
+            <item
+                android:id="@+id/poids"
+                android:icon="@drawable/scale"
+                android:title="Poids" />
+            <item
+                android:id="@+id/breed"
+                android:icon="@drawable/dog"
+                android:title="Races" />
+        </menu>
+    </item>
+
+    <item android:title="Identification">
+        <menu android:checkableBehavior="single">
+            <item
+                android:id="@+id/scan"
+                android:icon="@drawable/barcode"
+                android:title="Scan">
+
+            </item>
+
+            <item
+                android:id="@+id/map"
+                android:icon="@drawable/localisation"
+                android:title="Localisation">
+
+            </item>
+        </menu>
+    </item>
+
+
+</menu>
