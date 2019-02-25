@@ -114,7 +114,6 @@ public class AdapterBreed extends RecyclerView.Adapter<AdapterBreed.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        View view;
         CellBreedRvBinding binding;
 
         public MyViewHolder(CellBreedRvBinding mBinding) {

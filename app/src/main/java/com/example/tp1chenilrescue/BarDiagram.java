@@ -66,6 +66,12 @@ public class BarDiagram extends View {
         }
     }
 
+    /**
+     * Méthode qui dessine les lignes verticales (de chaque cotés) du diagramme.
+     *
+     * @param canvas Canvas servant de toile.
+     * @param paint Ce qui sert à dessiner.
+     */
     private void drawSideLinesOnGraph(Canvas canvas, Paint paint) {
         // ligne verticale de gauche
         canvas.drawLine( 50f, canvasHeight - 20 ,50f, GraphTop , paint);
@@ -74,6 +80,11 @@ public class BarDiagram extends View {
         canvas.drawLine( canvas.getWidth()- 1, canvasHeight - 20, canvas.getWidth() -1, GraphTop, paint );
     }
 
+    /**
+     * Méthode qui dessine tout le texte qui est requis dans le diagramme (appel d'autres méthodes private)
+     *
+     * @param canvas Canvas passer par la Méthode onDraw().
+     */
     private void drawTextOnGraph(Canvas canvas) {
         float distBetweenLines = (float) canvasHeight / 20;
         Paint paint = new Paint(  );
@@ -84,6 +95,13 @@ public class BarDiagram extends View {
         drawTitleToGraph(canvas, paint, distBetweenLines);
     }
 
+    /**
+     * Méthode qui écrit le titre au centre du diagramme.
+     *
+     * @param canvas
+     * @param paint
+     * @param distanceBetweenLine Servant à écrire le titre au-dessus de la dernière échelle de valeur.
+     */
     private void drawTitleToGraph(Canvas canvas, Paint paint, float distanceBetweenLine) {
         int posX = (int)((canvas.getWidth() / 2) - ((paint.descent() + paint.ascent()) / 2));
         paint.setTextSize( 50 );

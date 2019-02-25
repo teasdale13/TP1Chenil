@@ -91,9 +91,8 @@ public class AddBreed extends DialogFragment {
                         ArrayList<Race> races = getDataFromFirebase( dataSnapshot, query );
                         if (races.size() > 0){
                             binding.firebaseSearchRV.setVisibility( View.VISIBLE );
+                            setUpRecyclerView( races );
                         }
-                        setUpRecyclerView( races );
-
                     }
 
                     @Override
@@ -122,6 +121,7 @@ public class AddBreed extends DialogFragment {
 
     /**
      * Méthode qui paramètre le RecyclerView qui se retrouve sous le SearchView.
+     *
      * @param list liste de Races à afficher.
      */
     private void setUpRecyclerView(ArrayList<Race> list) {
