@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.adapter.AdapterBreed;
 import com.example.tp1chenilrescue.dialogfragment.AddBreed;
 import com.example.tp1chenilrescue.dialogfragment.ConfirmDelete;
 import com.example.tp1chenilrescue.models.Race;
 import com.example.tp1chenilrescue.models.RaceDataAccess;
+import com.example.tp1chenilrescue.models.SwipeToDelete;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

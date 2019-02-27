@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.models;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,6 +9,8 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import com.example.tp1chenilrescue.R;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -33,7 +35,7 @@ public abstract class SwipeToDelete extends ItemTouchHelper.Callback {
     private int intrinsicHeight;
 
 
-    SwipeToDelete(Context context) {
+    protected SwipeToDelete(Context context) {
         mContext = context;
         mBackground = new ColorDrawable();
         backgroundColor = Color.parseColor("#F82828");

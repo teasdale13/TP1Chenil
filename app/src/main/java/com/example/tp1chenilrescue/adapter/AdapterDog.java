@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.tp1chenilrescue.dialogfragment.AddDog;
-import com.example.tp1chenilrescue.PoidsFragmentRV;
+import com.example.tp1chenilrescue.views.PoidsFragmentRV;
 import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.databinding.CellChienRvBinding;
 import com.example.tp1chenilrescue.models.Chien;

@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,9 +11,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.example.tp1chenilrescue.models.Chien;
-
-import java.util.ArrayList;
+import com.example.tp1chenilrescue.R;
 
 /**
  * @author Kevin Teasdale-Dubé
@@ -23,6 +21,8 @@ public class BarDiagram extends View {
     private int[] mValues;
     private int canvasHeight;
     private float GraphTop;
+    private int numberOfDog;
+    private float distBetweenLines;
 
     public BarDiagram(Context context) {
         super( context );
@@ -51,7 +51,9 @@ public class BarDiagram extends View {
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-        canvasHeight = canvas.getHeight();
+        numberOfDog = mValues[5];
+        canvasHeight = getHeight();
+        distBetweenLines = (float) canvasHeight / 15;
         final Paint paint = new Paint();
         drawHorizontalLinesInGraph( canvas );
         drawTextOnGraph(canvas);
@@ -60,10 +62,14 @@ public class BarDiagram extends View {
         for(int i = 0; i<mValues.length; i++) {
             canvas.drawRect(
                     new Rect((i*200)+160,
-                            canvasHeight-(mValues[i] * (canvasHeight/20)) -50,
+                            canvasHeight- (int)(getPercentage( mValues[i] ) * (distBetweenLines * 10)) -50,
                             (i*200) + 100,canvasHeight -50), paint
             );
         }
+    }
+
+    private float getPercentage(int nbrOfDogInThisAge){
+        return ((float) nbrOfDogInThisAge / (float) numberOfDog);
     }
 
     /**
@@ -74,7 +80,7 @@ public class BarDiagram extends View {
      */
     private void drawSideLinesOnGraph(Canvas canvas, Paint paint) {
         // ligne verticale de gauche
-        canvas.drawLine( 50f, canvasHeight - 20 ,50f, GraphTop , paint);
+        canvas.drawLine( 60f, canvasHeight - 20 ,60f, GraphTop , paint);
 
         // ligne verticale de droite
         canvas.drawLine( canvas.getWidth()- 1, canvasHeight - 20, canvas.getWidth() -1, GraphTop, paint );
@@ -86,13 +92,12 @@ public class BarDiagram extends View {
      * @param canvas Canvas passer par la Méthode onDraw().
      */
     private void drawTextOnGraph(Canvas canvas) {
-        float distBetweenLines = (float) canvasHeight / 20;
         Paint paint = new Paint(  );
         paint.setTextSize( 35 );
 
-        drawSideText(canvas,distBetweenLines, paint);
+        drawSideText(canvas, paint);
         drawBottomText(canvas, paint);
-        drawTitleToGraph(canvas, paint, distBetweenLines);
+        drawTitleToGraph(canvas, paint);
     }
 
     /**
@@ -100,19 +105,19 @@ public class BarDiagram extends View {
      *
      * @param canvas
      * @param paint
-     * @param distanceBetweenLine Servant à écrire le titre au-dessus de la dernière échelle de valeur.
      */
-    private void drawTitleToGraph(Canvas canvas, Paint paint, float distanceBetweenLine) {
+    private void drawTitleToGraph(Canvas canvas, Paint paint) {
         int posX = (int)((canvas.getWidth() / 2) - ((paint.descent() + paint.ascent()) / 2));
         paint.setTextSize( 50 );
         paint.setTextAlign( Paint.Align.CENTER );
-        canvas.drawText( "Nombre de chiens par tranches d'âge",posX,
-                canvasHeight - (13 * distanceBetweenLine),paint );
+        canvas.drawText( "Pourcentage de chiens par tranches d'âge",posX,
+                canvasHeight - (12 * distBetweenLines),paint );
     }
 
-    private void drawSideText(Canvas canvas, float distBetweenLines, Paint paint) {
-        for (int x = 0; x < 12; x++){
-            canvas.drawText( String.valueOf( x ) ,0, (canvasHeight - (x * distBetweenLines) - 55),paint );
+    private void drawSideText(Canvas canvas, Paint paint) {
+        paint.setTextSize( 30 );
+        for (int x = 0; x < 11; x++){
+            canvas.drawText( String.valueOf( x * 10 ) ,0, (canvasHeight - (x * distBetweenLines) - 55),paint );
         }
     }
 
@@ -126,13 +131,12 @@ public class BarDiagram extends View {
     private void drawHorizontalLinesInGraph(Canvas canvas){
         Paint paint = new Paint(  );
         paint.setColor( Color.GRAY );
-        int canvasHeight = canvas.getHeight();
-        float distBetweenLines = (float) canvasHeight / 20;
 
-        for (int x = 0; x < 12; x++){
+
+        for (int x = 0; x < 11; x++){
             canvas.drawLine( 25f, canvasHeight - (x *distBetweenLines) -50,canvas.getWidth(),
                     canvasHeight - (x *distBetweenLines) - 50, paint);
-            if (x == 11){
+            if (x == 10){
                 GraphTop = canvasHeight - (x *distBetweenLines) - 50;
             }
         }

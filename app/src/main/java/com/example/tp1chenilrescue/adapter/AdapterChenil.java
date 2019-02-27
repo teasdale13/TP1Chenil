@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.tp1chenilrescue.dialogfragment.AddChenil;
-import com.example.tp1chenilrescue.DogFragmentRV;
+import com.example.tp1chenilrescue.views.DogFragmentRV;
 import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.databinding.CellChenilRvBinding;
 import com.example.tp1chenilrescue.models.Chenil;

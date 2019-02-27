@@ -3,6 +3,7 @@ package com.example.tp1chenilrescue.models;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 
 /**
@@ -189,6 +190,22 @@ public class DataAccessUtils {
 
         cursor.close();
         return chenils;
+    }
+
+    public ArrayList<Chien> selectDogNotInFamily(int id){
+        ArrayList<Chien> notMyFamily = new ArrayList<>(  );
+        String tempTable = "family";
+
+        String query = "WITH "+ tempTable +" AS ( SELECT id, nom, pere, mere FROM "
+                + ChienTable.TABLE_NAME +" WHERE id = ?" + "UNION SELECT id, nom, pere,mere FROM "
+                + ChienTable.TABLE_NAME + " INNER JOIN "+ tempTable +" ON "
+                + tempTable+".id = chien.pere) SELECT * FROM "+ tempTable +";";
+
+        Cursor c = database.rawQuery( query, new String[] {String.valueOf(id)} );
+
+
+        c.close();
+        return notMyFamily;
     }
 
 

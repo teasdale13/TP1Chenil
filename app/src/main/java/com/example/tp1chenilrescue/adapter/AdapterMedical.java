@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AdapterMedical extends RecyclerView.Adapter<AdapterMedical.MyViewHolder> {
 
     private ArrayList<Poids> poidsArrayList;
-    private CellMedicalRvBinding binding;
     private Chien monChien;
     private FragmentManager manager;
     private PoidsDataAccess dataAccess;
@@ -40,7 +39,7 @@ public class AdapterMedical extends RecyclerView.Adapter<AdapterMedical.MyViewHo
     @Override
     public AdapterMedical.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from( parent.getContext() );
-        binding = DataBindingUtil.inflate( inflater, R.layout.cell_medical_rv, parent, false );
+        CellMedicalRvBinding binding = DataBindingUtil.inflate( inflater, R.layout.cell_medical_rv, parent, false );
 
         return new MyViewHolder( binding );
     }
@@ -56,8 +55,6 @@ public class AdapterMedical extends RecyclerView.Adapter<AdapterMedical.MyViewHo
 
             }
         } );
-
-
     }
 
     private void showMedicalFragment(int adapterPosition) {

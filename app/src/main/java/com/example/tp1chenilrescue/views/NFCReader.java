@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Parcelable;
 import android.widget.Toast;
 
+import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.dialogfragment.DogInfoNFCReader;
 import com.example.tp1chenilrescue.models.ChienDataAccess;
 

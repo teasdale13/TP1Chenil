@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chenil;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;

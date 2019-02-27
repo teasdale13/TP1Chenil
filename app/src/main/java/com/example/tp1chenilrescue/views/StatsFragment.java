@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chien;
 
 import java.util.ArrayList;
@@ -60,9 +61,9 @@ public class StatsFragment extends Fragment {
      * @return array de int qui contient la quantité de chiens par tranches d'ages.
      */
     private int[] setNumberOfDogs(ArrayList<Chien> chiens) {
-        int[] arrays = new int[5];
+        int[] arrays = new int[6];
 
-        for (Chien chien : chiens)
+        for (Chien chien : chiens) {
             switch (chien.getAge()) {
                 case 0:
                     arrays[0] += 1;
@@ -75,13 +76,16 @@ public class StatsFragment extends Fragment {
                     arrays[2] += 1;
                     break;
                 default:
-                    if (chien.getAge() >= 8){
+                    if (chien.getAge() >= 8) {
                         arrays[4] += 1;
-                    }else {
+                    } else {
                         arrays[3] += 1;
                     }
                     break;
             }
+        }
+        // Stock la quantité de chiens pour afficher dans le diagramme en pourcentage.
+        arrays[5] = chiens.size();
         return arrays;
     }
 

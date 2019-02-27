@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import android.content.Context;
 import android.net.Uri;
@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.adapter.AdapterDog;
 import com.example.tp1chenilrescue.dialogfragment.AddDog;
 import com.example.tp1chenilrescue.dialogfragment.ConfirmDelete;
@@ -24,6 +25,7 @@ import com.example.tp1chenilrescue.models.Chenil;
 import com.example.tp1chenilrescue.models.Chien;
 import com.example.tp1chenilrescue.models.ChienDataAccess;
 import com.example.tp1chenilrescue.models.DatabaseHelper;
+import com.example.tp1chenilrescue.models.SwipeToDelete;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -212,7 +214,7 @@ public class DogFragmentRV extends Fragment {
                         if (response){
                             // si le lien entre le chenil et le chien doit être supprimé.
                             if (rvInDialogFragment){
-                                Toast.makeText( mContext, "Patate!!!!", Toast.LENGTH_LONG ).show();
+                                Toast.makeText( mContext, "Le chien a été dissocié du chenil", Toast.LENGTH_LONG ).show();
                                 chienDataAccess.deleteFromChenilChien( chien.getId(), monChenil.getId()  );
                                 // si le chien en entier doit être supprimé par son ID.
                             }else {

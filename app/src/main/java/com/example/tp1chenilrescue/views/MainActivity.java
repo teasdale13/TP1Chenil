@@ -1,4 +1,4 @@
-package com.example.tp1chenilrescue;
+package com.example.tp1chenilrescue.views;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -16,6 +16,8 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chenil;
 import com.example.tp1chenilrescue.models.ChenilDataAccess;
 import com.example.tp1chenilrescue.models.ChienDataAccess;

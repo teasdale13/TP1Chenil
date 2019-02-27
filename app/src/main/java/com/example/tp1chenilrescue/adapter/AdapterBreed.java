@@ -21,7 +21,6 @@ public class AdapterBreed extends RecyclerView.Adapter<AdapterBreed.MyViewHolder
 
     private ArrayList<Race> races;
     private FragmentManager fragmentManager;
-    private CellBreedRvBinding cellBreedRvBinding;
     private RaceDataAccess raceDataAccess;
     private Context mContext;
 
@@ -32,7 +31,7 @@ public class AdapterBreed extends RecyclerView.Adapter<AdapterBreed.MyViewHolder
 
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        cellBreedRvBinding = DataBindingUtil.inflate( LayoutInflater.from( parent.getContext() ),
+        CellBreedRvBinding cellBreedRvBinding = DataBindingUtil.inflate( LayoutInflater.from( parent.getContext() ),
                 R.layout.cell_breed_rv,parent, false);
 
         return new MyViewHolder( cellBreedRvBinding );
@@ -79,7 +78,7 @@ public class AdapterBreed extends RecyclerView.Adapter<AdapterBreed.MyViewHolder
     /**
      * Méthode servant à passer divers objets pour le bon fonctionnement de l'adapter.
      *
-     * @param dataAccess L'objet qui à accès à la base de données.
+     * @param dataAccess L'objet qui a accès à la base de données.
      * @param context context servant à afficher un Toast.
      */
     public void setDatabaseToAdapter(RaceDataAccess dataAccess, Context context) {

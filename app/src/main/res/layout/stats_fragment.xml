@@ -5,12 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StatsFragment">
+    tools:context=".views.StatsFragment">
 
-    <com.example.tp1chenilrescue.BarDiagram
+    <com.example.tp1chenilrescue.views.BarDiagram
         android:id="@+id/barChart"
         android:layout_width="0dp"
-        android:layout_height="452dp"
+        android:layout_height="505dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
