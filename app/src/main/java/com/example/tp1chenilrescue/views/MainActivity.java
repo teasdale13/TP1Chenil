@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.tp1chenilrescue.HelpFragment;
 import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chenil;
 import com.example.tp1chenilrescue.models.ChenilDataAccess;
@@ -103,18 +102,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.menuHelp:
                 help();
-                Toast.makeText( getApplicationContext(), "FAQ", Toast.LENGTH_LONG ).show();
                 break;
             case R.id.genealogie:
+                familyFragment();
                 Toast.makeText( getApplicationContext(), "Généalogie", Toast.LENGTH_LONG ).show();
                 break;
             case R.id.stat:
                 statsFragment();
-                Toast.makeText( getApplicationContext(), "Stat", Toast.LENGTH_LONG ).show();
                 break;
         }
 
         return super.onOptionsItemSelected( item );
+    }
+
+    private void familyFragment() {
+        FamilyFragment familyFragment = new FamilyFragment();
+        familyFragment.setDogList( chienDataAccess.selectAllDog() );
+        getSupportFragmentManager().beginTransaction().replace( container, familyFragment ).commit();
     }
 
     private void help(){

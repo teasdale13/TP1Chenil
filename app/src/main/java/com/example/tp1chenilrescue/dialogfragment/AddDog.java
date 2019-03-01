@@ -128,7 +128,8 @@ public class AddDog extends DialogFragment {
         return binding.getRoot();
     }
 
-    private void createBreedSpinner(final ArrayList<Race> breedList, final Spinner spinner, final Spinner father, final Spinner mother) {
+    private void createBreedSpinner(final ArrayList<Race> breedList, final Spinner spinner,
+                                    final Spinner father, final Spinner mother) {
 
         Race mRace = new Race(  );
         mRace.setId( 0 );
@@ -139,7 +140,6 @@ public class AddDog extends DialogFragment {
         ArrayAdapter<Race> arrayAdapter = new ArrayAdapter<Race>( context, android.R.layout.simple_spinner_item, spinnerItem );
         arrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         spinner.setAdapter( arrayAdapter );
-        //spinner.setSelection( 0 );
         spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -152,9 +152,6 @@ public class AddDog extends DialogFragment {
                         createParentSpinner( chienDataAccess.getParentFromDB( "M", mRace.getId() ), father, true );
                         createParentSpinner( chienDataAccess.getParentFromDB( "F", mRace.getId() ), mother, false );
                     }
-                    return;
-
-
                 }
             }
 
