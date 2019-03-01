@@ -10,7 +10,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menuFAQ"
+        android:id="@+id/menuHelp"
         android:orderInCategory="100"
         android:title="Mode d'emploi"
         app:showAsAction="never" />

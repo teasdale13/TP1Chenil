@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.tp1chenilrescue.HelpFragment;
 import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chenil;
 import com.example.tp1chenilrescue.models.ChenilDataAccess;
@@ -100,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.menuSetting:
                 settingsFragment();
                 break;
-            case R.id.menuFAQ:
+            case R.id.menuHelp:
+                help();
                 Toast.makeText( getApplicationContext(), "FAQ", Toast.LENGTH_LONG ).show();
                 break;
             case R.id.genealogie:
@@ -113,6 +115,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected( item );
+    }
+
+    private void help(){
+        HelpFragment fragment = new HelpFragment();
+        getSupportFragmentManager().beginTransaction().replace( container,fragment ).commit();
+
     }
 
     private void statsFragment() {
