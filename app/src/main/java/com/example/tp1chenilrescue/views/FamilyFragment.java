@@ -1,6 +1,7 @@
 package com.example.tp1chenilrescue.views;
 
 import android.content.Context;
+import android.icu.util.ChineseCalendar;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chien;
@@ -96,6 +98,14 @@ public class FamilyFragment extends Fragment {
 
         ArrayAdapter adapter = new ArrayAdapter<String>( getContext(), R.layout.listview_cell, firstArray );
         listView.setAdapter( adapter );
+        listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String monChien = (String) parent.getItemAtPosition( position );
+
+                Toast.makeText( getContext(),monChien,Toast.LENGTH_SHORT ).show();
+            }
+        } );
     }
 
     public void onButtonPressed(Uri uri) {
