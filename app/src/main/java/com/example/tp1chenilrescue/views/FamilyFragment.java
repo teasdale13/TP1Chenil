@@ -73,18 +73,17 @@ public class FamilyFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Chien monChien = (Chien) parent.getItemAtPosition( position );
-                if (monChien.getId() != 0){
-                    listView.setVisibility( View.VISIBLE );
+                listView.setVisibility(monChien.getId() != 0 ? View.VISIBLE : View.GONE  );
+                if (monChien.getId() != 0 ){
                     setListViewArray();
-                }else {
-                    listView.setVisibility( View.GONE );
                 }
 
+                
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                listView.setVisibility( View.GONE );
             }
         } );
 

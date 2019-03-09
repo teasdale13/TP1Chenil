@@ -10,6 +10,7 @@ public class ChienTable {
     public static String MERE = "mere";
     public static String RACE = "race_id";
     public static String SEXE = "sexe";
+    public static String STATE = "state";
 
 
 }

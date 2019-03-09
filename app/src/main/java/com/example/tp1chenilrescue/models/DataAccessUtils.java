@@ -36,17 +36,17 @@ public class DataAccessUtils {
 
 
     public int deleteDogById(int id) {
+        ContentValues values = new ContentValues(  );
+        values.put( ChienTable.STATE , "NOT OWN" );
         String where = ChienTable.ID + " = ?";
 
-      return database.delete( ChienTable.TABLE_NAME,where, new String[] {String.valueOf( id )});
-
+      return database.update( ChienTable.TABLE_NAME, values ,where, new String[] {String.valueOf( id )});
     }
 
     public int deleteMedicalById(int id) {
         String where = PoidsTable.ID + " = ?";
 
-        return database.delete( PoidsTable.TABLE_NAME, where, new String[] {String.valueOf( id )} );
-
+        return database.delete( ChienTable.TABLE_NAME , where, new String[] {String.valueOf( id )});
     }
 
     public boolean updateKennel(Chenil mChenil) {
@@ -103,7 +103,7 @@ public class DataAccessUtils {
     }
 
     public Chien selectDogById(int id) {
-        String selection = ChienTable.ID + " = ?";
+        String selection = ChienTable.ID + " = ? AND " + ChienTable.STATE + " = \"OWN \"";
 
         Cursor c = database.query( ChienTable.TABLE_NAME, null, selection, new String[]{String.valueOf( id )},
                 null, null, null );
@@ -150,7 +150,7 @@ public class DataAccessUtils {
                 + " FROM " + ChienTable.TABLE_NAME + " INNER JOIN " + ChenilChienTable.TABLE_NAME
                 + " ON " + ChienTable.TABLE_NAME + "." + ChienTable.ID + " = " + ChenilChienTable.TABLE_NAME
                 + "." + ChenilChienTable.CHIEN_ID + " WHERE " + ChenilChienTable.TABLE_NAME
-                + "." + ChenilChienTable.CHENIL_ID + " = ?)";
+                + "." + ChenilChienTable.CHENIL_ID + " = ? AND " + ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = \"OWN\" );";
 
 
         ArrayList<Chien> chienArrayList = new ArrayList<>();
@@ -444,11 +444,6 @@ public class DataAccessUtils {
 
     }
 
-    private boolean isInserted(long response) {
-        return response != -1;
-    }
-
-
 
     public boolean updateById(Chien chien) {
         String where = ChienTable.ID + " = ?";
@@ -496,7 +491,8 @@ public class DataAccessUtils {
 
 
     public Cursor selectDogByBreedAndSex(String sexe, int raceId) {
-        String selection = ChienTable.SEXE + " = ?" + " AND " + ChienTable.RACE + " = ?";
+        String selection = ChienTable.SEXE + " = ?" + " AND " + ChienTable.RACE + " = ?" + " AND " +
+                ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = \"OWN\"";
 
         return database.query( ChienTable.TABLE_NAME, new String[]{ChienTable.ID, ChienTable.NAME}
                 , selection, new String[]{sexe, String.valueOf( raceId )}, null,

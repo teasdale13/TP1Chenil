@@ -26,6 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL( "CREATE TABLE chien (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,nom TEXT," +
                 " date_naissance TEXT,mere INTEGER, pere INTEGER, race_id INTEGER NOT NULL, sexe TEXT NOT NULL," +
+                " state TEXT NOT NULL DEFAULT \"OWN\"," +
                 "FOREIGN KEY(mere) REFERENCES chien(id), " +
                 "FOREIGN KEY(pere) REFERENCES chien(id)," +
                 "FOREIGN KEY(race_id) REFERENCES race(id));" );
