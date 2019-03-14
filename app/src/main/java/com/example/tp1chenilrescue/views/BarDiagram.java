@@ -68,6 +68,12 @@ public class BarDiagram extends View {
         }
     }
 
+    /**
+     * Méthode qui calcul le pourcentage de chien possédant un age spécifique.
+     *
+     * @param nbrOfDogInThisAge Qte de chien ayant un age spécifique.
+     * @return le pourcentage en float.
+     */
     private float getPercentage(int nbrOfDogInThisAge){
         return ((float) nbrOfDogInThisAge / (float) numberOfDog);
     }

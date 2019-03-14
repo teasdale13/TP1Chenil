@@ -211,6 +211,7 @@ public class Chien extends BaseObservable {
         if (dogDay == 0 && dogMonth == 0 && dogYear == 0){
            return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         }
+
         return String.valueOf( dogDay + "/" + String.valueOf(dogMonth < 10 ? "0" + (dogMonth) : dogMonth) + "/" + dogYear );
 
     }
@@ -224,8 +225,7 @@ public class Chien extends BaseObservable {
         date.setTime( dateTime );
         int d1 = Integer.parseInt(formatter.format( date ));
         int d2 = Integer.parseInt(formatter.format(currentDate));
-        int age = (d2 - d1) / 10000;
-        return age;
+        return (d2 - d1) / 10000;
 
     }
 
