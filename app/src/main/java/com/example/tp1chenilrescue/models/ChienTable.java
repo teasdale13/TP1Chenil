@@ -11,6 +11,8 @@ public class ChienTable {
     public static String RACE = "race_id";
     public static String SEXE = "sexe";
     public static String STATE = "state";
+    public static String STATE_IN = "own";
+    public static String STATE_OUT = "not own";
 
 
 }

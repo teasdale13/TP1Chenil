@@ -81,12 +81,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ChenilFragmentRV fragment = new ChenilFragmentRV();
             fragment.setOption( false,false, getSupportFragmentManager(),
                     getApplicationContext(), true, false);
-            fragment.setListener( new ChenilFragmentRV.ChenilFragmentListener() {
-                @Override
-                public void ChenilListener(Uri uri) {
-
-                }
-            } );
             fragment.setList( chenilDataAccess.selectKennelForRV());
             getSupportFragmentManager().beginTransaction().replace( container,
                     fragment ).commit();
@@ -117,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void familyFragment() {
         FamilyFragment familyFragment = new FamilyFragment();
-        familyFragment.setDogList( chienDataAccess.selectAllDog() );
+        familyFragment.setDogList( chienDataAccess.selectAllDog(true) );
+        familyFragment.setDataAccess(chienDataAccess);
         getSupportFragmentManager().beginTransaction().replace( container, familyFragment ).commit();
     }
 
@@ -130,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void statsFragment() {
         StatsFragment fragment = new StatsFragment();
         fragment.setContext( getApplicationContext() );
-        fragment.setList( chienDataAccess.selectAllDog() );
+        fragment.setList( chienDataAccess.selectAllDog(false) );
         getSupportFragmentManager().beginTransaction().replace( container,fragment ).commit();
     }
 
@@ -199,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     private void showDogList() {
         DogFragmentRV fragmentRV = new DogFragmentRV();
-        fragmentRV.setList( chienDataAccess.selectAllDog() );
+        fragmentRV.setList( chienDataAccess.selectAllDog(false) );
         fragmentRV.setShowMedical( false, false , false);
         fragmentRV.setFragmentManager( getSupportFragmentManager() );
         fragmentRV.setContext( getApplicationContext() );

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.tp1chenilrescue.R;
 import com.example.tp1chenilrescue.models.Chien;
+import com.example.tp1chenilrescue.models.ChienDataAccess;
 import com.example.tp1chenilrescue.models.Race;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class FamilyFragment extends Fragment {
     private ArrayList<Chien> list;
     private Spinner spinner;
     private ListView listView;
+    private ChienDataAccess dataAccess;
 
     public FamilyFragment() {
 
@@ -46,6 +48,10 @@ public class FamilyFragment extends Fragment {
 
     public void setDogList(ArrayList<Chien> chiens){
         list = chiens;
+    }
+
+    public void setDataAccess(ChienDataAccess chienDataAccess) {
+        dataAccess = chienDataAccess;
     }
 
     @Override
@@ -75,10 +81,9 @@ public class FamilyFragment extends Fragment {
                 Chien monChien = (Chien) parent.getItemAtPosition( position );
                 listView.setVisibility(monChien.getId() != 0 ? View.VISIBLE : View.GONE  );
                 if (monChien.getId() != 0 ){
-                    setListViewArray();
-                }
+                    setListViewArray( dataAccess.selectDogNotInFamily(dataAccess.selectDogById( monChien.getId() )) );
 
-                
+                }
             }
 
             @Override
@@ -90,21 +95,13 @@ public class FamilyFragment extends Fragment {
         return view;
     }
 
-    private void setListViewArray() {
-        String[] firstArray = {"Allo", "Bonjour", "Bye", "Salut", "Bleu", "Jaune", "Rouge", "Vert",
-                "Patate", "Pomme" ,"Allo", "Bonjour", "Bye", "Salut", "Bleu", "Jaune", "Rouge", "Vert",
-                "Patate", "Pomme"};
+    private void setListViewArray(ArrayList<Chien> list) {
+        Chien[] chiensArray = new Chien[list.size()];
+        chiensArray = list.toArray(chiensArray);
 
-        ArrayAdapter adapter = new ArrayAdapter<String>( getContext(), R.layout.listview_cell, firstArray );
+        ArrayAdapter adapter = new ArrayAdapter<Chien>( getContext(), R.layout.listview_cell, chiensArray );
         listView.setAdapter( adapter );
-        listView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String monChien = (String) parent.getItemAtPosition( position );
 
-                Toast.makeText( getContext(),monChien,Toast.LENGTH_SHORT ).show();
-            }
-        } );
     }
 
     public void onButtonPressed(Uri uri) {
@@ -119,6 +116,8 @@ public class FamilyFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

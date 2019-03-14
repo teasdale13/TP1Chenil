@@ -37,7 +37,7 @@ public class DataAccessUtils {
 
     public int deleteDogById(int id) {
         ContentValues values = new ContentValues(  );
-        values.put( ChienTable.STATE , "NOT OWN" );
+        values.put( ChienTable.STATE , ChienTable.STATE_OUT );
         String where = ChienTable.ID + " = ?";
 
       return database.update( ChienTable.TABLE_NAME, values ,where, new String[] {String.valueOf( id )});
@@ -103,9 +103,9 @@ public class DataAccessUtils {
     }
 
     public Chien selectDogById(int id) {
-        String selection = ChienTable.ID + " = ? AND " + ChienTable.STATE + " = \"OWN \"";
+        String selection = ChienTable.ID + " = ?" + " AND " + ChienTable.TABLE_NAME + "." + ChienTable.STATE + " =  ?" ;
 
-        Cursor c = database.query( ChienTable.TABLE_NAME, null, selection, new String[]{String.valueOf( id )},
+        Cursor c = database.query( ChienTable.TABLE_NAME, null, selection, new String[]{String.valueOf( id ),ChienTable.STATE_IN},
                 null, null, null );
 
         Chien chien = new Chien();
@@ -150,11 +150,12 @@ public class DataAccessUtils {
                 + " FROM " + ChienTable.TABLE_NAME + " INNER JOIN " + ChenilChienTable.TABLE_NAME
                 + " ON " + ChienTable.TABLE_NAME + "." + ChienTable.ID + " = " + ChenilChienTable.TABLE_NAME
                 + "." + ChenilChienTable.CHIEN_ID + " WHERE " + ChenilChienTable.TABLE_NAME
-                + "." + ChenilChienTable.CHENIL_ID + " = ? AND " + ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = \"OWN\" );";
+                + "." + ChenilChienTable.CHENIL_ID + " = ? AND "
+                + ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = ?);";
 
 
         ArrayList<Chien> chienArrayList = new ArrayList<>();
-        Cursor c = database.rawQuery( bigSelect,new String[] {String.valueOf( id )} );
+        Cursor c = database.rawQuery( bigSelect,new String[] {String.valueOf( id ),ChienTable.STATE_IN } );
 
         while (c.moveToNext()) {
             Chien chien = new Chien();
@@ -192,16 +193,40 @@ public class DataAccessUtils {
         return chenils;
     }
 
-    public ArrayList<Chien> selectDogNotInFamily(int id){
+    public ArrayList<Chien> selectDogNotInFamily(Chien monChien){
         ArrayList<Chien> notMyFamily = new ArrayList<>(  );
         String tempTable = "family";
+        String sexToFind = monChien.getSexe().equals( "F" )? ChienTable.PERE :ChienTable.MERE;
+
+
+        String recursiveQuery = "SELECT " + ChienTable.ID +", " + ChienTable.NAME +" FROM "
+                + ChienTable.TABLE_NAME +" WHERE " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + " NOT IN (" +
+                "WITH tempTable as ( SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " +
+                ChienTable.TABLE_NAME + "."+ sexToFind + " FROM " + ChienTable.TABLE_NAME + " WHERE " + ChienTable.ID + " = ?" + "UNION" +
+                " SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " + ChienTable.TABLE_NAME + "." + sexToFind +
+                " FROM " + ChienTable.TABLE_NAME +" INNER JOIN tempTable ON tempTable." + sexToFind+ " = "
+                + ChienTable.TABLE_NAME + "." + ChienTable.ID + " OR " + ChienTable.TABLE_NAME + "." + sexToFind + " = tempTable.id)" +
+                "SELECT tempTable.id FROM tempTable ) AND " + ChienTable.TABLE_NAME + "." + ChienTable.SEXE
+                + " <> ? AND " + ChienTable.TABLE_NAME + "." + ChienTable.RACE + " = ?;";
+
+
+
 
         String query = "WITH "+ tempTable +" AS ( SELECT id, nom, pere, mere FROM "
                 + ChienTable.TABLE_NAME +" WHERE id = ?" + "UNION SELECT id, nom, pere,mere FROM "
                 + ChienTable.TABLE_NAME + " INNER JOIN "+ tempTable +" ON "
                 + tempTable+".id = chien.pere) SELECT * FROM "+ tempTable +";";
 
-        Cursor c = database.rawQuery( query, new String[] {String.valueOf(id)} );
+        Cursor c = database.rawQuery( recursiveQuery, new String[] {String.valueOf(monChien.getId()),
+                monChien.getSexe(), String.valueOf( monChien.getRaceId() )} );
+
+        while (c.moveToNext()){
+            Chien chien = new Chien(  );
+
+            chien.setId( c.getInt( c.getColumnIndexOrThrow( ChienTable.ID ) ) );
+            chien.setNom( c.getString( c.getColumnIndexOrThrow( ChienTable.NAME ) ) );
+            notMyFamily.add( chien );
+        }
 
 
         c.close();
@@ -235,11 +260,13 @@ public class DataAccessUtils {
      *
      * @return un ArrayList de chiens pour afficher à l'utilisateur la liste de ses chiens.
      */
-    public ArrayList<Chien> selectAllDog() {
-        Cursor c = database.query( ChienTable.TABLE_NAME,
-                null, null, null,
-                null, null, null );
+    public ArrayList<Chien> selectAllDog( boolean isFamilyFragment) {
         ArrayList<Chien> chiens = new ArrayList<>();
+
+            String selection = ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = ?";
+            Cursor c = database.query( ChienTable.TABLE_NAME,
+                    null, selection, new String[]{ChienTable.STATE_IN},
+                    null, null, null );
 
         while (c.moveToNext()) {
             Chien chien = new Chien();
@@ -336,9 +363,10 @@ public class DataAccessUtils {
         String select = "SELECT chien.id, chien.nom, chien.date_naissance, chien.race_id, chien.pere," +
                 "chien.mere, chien.sexe FROM "
                 + ChienTable.TABLE_NAME + " INNER JOIN " + ChenilChienTable.TABLE_NAME +
-                " ON chien.id = chenil_chien.chien_id WHERE chenil_chien.chenil_id = ?";
+                " ON chien.id = chenil_chien.chien_id WHERE chenil_chien.chenil_id = ?" + " AND " +
+                ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = ?";
 
-        Cursor c = database.rawQuery( select, new String[]{chenilId} );
+        Cursor c = database.rawQuery( select, new String[]{chenilId, ChienTable.STATE_IN} );
 
         while (c.moveToNext()) {
             Chien chien = new Chien();
@@ -417,6 +445,7 @@ public class DataAccessUtils {
         values.put( ChienTable.DATE, chien.getDate_naissance() );
         values.put( ChienTable.PERE, chien.getIdPere() );
         values.put( ChienTable.MERE, chien.getMereId() );
+        values.put( ChienTable.STATE, ChienTable.STATE_IN );
 
         return database.insert( ChienTable.TABLE_NAME, null, values );
 
