@@ -181,7 +181,6 @@ public class AddDog extends DialogFragment {
         ArrayAdapter<Chien> arrayAdapter = new ArrayAdapter<Chien>( context, android.R.layout.simple_spinner_item, spinnerItem );
         arrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
         spinner.setAdapter( arrayAdapter );
-        //spinner.setSelection( 0 );
         spinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

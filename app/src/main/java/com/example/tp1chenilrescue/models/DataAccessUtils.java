@@ -193,32 +193,36 @@ public class DataAccessUtils {
         return chenils;
     }
 
+    /**
+     * Méthode récursive qui construit un arbre généalogie pour contrer la consanguinité et renvoie
+     * une Liste des chiens compatible a un accouplement.
+     *
+     * @param monChien Chien a vérifier l'arbre généalogique.
+     * @return une liste de Chien qui ne font pas parti de la famille du chien.
+     */
     public ArrayList<Chien> selectDogNotInFamily(Chien monChien){
         ArrayList<Chien> notMyFamily = new ArrayList<>(  );
-        String tempTable = "family";
-        String sexToFind = monChien.getSexe().equals( "F" )? ChienTable.PERE :ChienTable.MERE;
+        String otherSexToFind = monChien.getSexe().equals( "F" )? ChienTable.PERE :ChienTable.MERE;
+        String sameSexToFind = monChien.getSexe().equals( "M" )? ChienTable.PERE :ChienTable.MERE;
 
 
         String recursiveQuery = "SELECT " + ChienTable.ID +", " + ChienTable.NAME +" FROM "
                 + ChienTable.TABLE_NAME +" WHERE " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + " NOT IN (" +
                 "WITH tempTable as ( SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " +
-                ChienTable.TABLE_NAME + "."+ sexToFind + " FROM " + ChienTable.TABLE_NAME + " WHERE " + ChienTable.ID + " = ?" + "UNION" +
-                " SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " + ChienTable.TABLE_NAME + "." + sexToFind +
-                " FROM " + ChienTable.TABLE_NAME +" INNER JOIN tempTable ON tempTable." + sexToFind+ " = "
-                + ChienTable.TABLE_NAME + "." + ChienTable.ID + " OR " + ChienTable.TABLE_NAME + "." + sexToFind + " = tempTable.id)" +
-                "SELECT tempTable.id FROM tempTable ) AND " + ChienTable.TABLE_NAME + "." + ChienTable.SEXE
-                + " <> ? AND " + ChienTable.TABLE_NAME + "." + ChienTable.RACE + " = ?;";
-
-
-
-
-        String query = "WITH "+ tempTable +" AS ( SELECT id, nom, pere, mere FROM "
-                + ChienTable.TABLE_NAME +" WHERE id = ?" + "UNION SELECT id, nom, pere,mere FROM "
-                + ChienTable.TABLE_NAME + " INNER JOIN "+ tempTable +" ON "
-                + tempTable+".id = chien.pere) SELECT * FROM "+ tempTable +";";
+                ChienTable.TABLE_NAME + "."+ otherSexToFind + " FROM " + ChienTable.TABLE_NAME + " WHERE " + ChienTable.ID + " = ?" + " UNION" +
+                " SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " + ChienTable.TABLE_NAME + "." + otherSexToFind +
+                " FROM " + ChienTable.TABLE_NAME +" INNER JOIN tempTable ON tempTable." + otherSexToFind+ " = "
+                + ChienTable.TABLE_NAME + "." + ChienTable.ID + " OR " + ChienTable.TABLE_NAME + "." + otherSexToFind + " = tempTable.id)" +
+                "SELECT tempTable.id FROM tempTable ) AND " + ChienTable.TABLE_NAME + "."+ ChienTable.ID
+                + " NOT IN (WITH tempTable2 as ( SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " +
+                 ChienTable.TABLE_NAME + "." + sameSexToFind + " FROM " + ChienTable.TABLE_NAME + " WHERE " + ChienTable.ID + " = ?" + " UNION " +
+                " SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " + ChienTable.TABLE_NAME + "." + sameSexToFind +
+                " FROM " + ChienTable.TABLE_NAME +" INNER JOIN tempTable2 ON tempTable2." + sameSexToFind+ " = "
+                + ChienTable.TABLE_NAME + "." + ChienTable.ID + " OR " + ChienTable.TABLE_NAME + "." + sameSexToFind + " = tempTable2.id)" +
+                " SELECT tempTable2.id FROM tempTable2 ) AND  "  + ChienTable.TABLE_NAME + "." + ChienTable.RACE + " = ? AND chien.sexe <> ?;";
 
         Cursor c = database.rawQuery( recursiveQuery, new String[] {String.valueOf(monChien.getId()),
-                monChien.getSexe(), String.valueOf( monChien.getRaceId() )} );
+                String.valueOf(monChien.getId()),  String.valueOf( monChien.getRaceId() ), monChien.getSexe()} );
 
         while (c.moveToNext()){
             Chien chien = new Chien(  );
@@ -227,7 +231,6 @@ public class DataAccessUtils {
             chien.setNom( c.getString( c.getColumnIndexOrThrow( ChienTable.NAME ) ) );
             notMyFamily.add( chien );
         }
-
 
         c.close();
         return notMyFamily;
@@ -520,8 +523,7 @@ public class DataAccessUtils {
 
 
     public Cursor selectDogByBreedAndSex(String sexe, int raceId) {
-        String selection = ChienTable.SEXE + " = ?" + " AND " + ChienTable.RACE + " = ?" + " AND " +
-                ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = \"OWN\"";
+        String selection = ChienTable.SEXE + " = ?" + " AND " + ChienTable.RACE + " = ?";
 
         return database.query( ChienTable.TABLE_NAME, new String[]{ChienTable.ID, ChienTable.NAME}
                 , selection, new String[]{sexe, String.valueOf( raceId )}, null,

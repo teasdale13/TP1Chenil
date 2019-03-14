@@ -81,7 +81,6 @@ public class HowToFragment extends Fragment {
      * affiche un Toast quand c'est effectué ou si une erreur survient.
      */
     private void PushDbToFirebase() {
-        if (filePath != null){
             StorageReference reference = storageReference;
             Uri file = Uri.fromFile(new File("/data/data/" + context.getPackageName() +"/databases/chenilandreinc.db"));
 
@@ -97,7 +96,7 @@ public class HowToFragment extends Fragment {
                     Log.d( "Firebase BACKUP ERROR", e.getMessage() );
                 }
             } );
-        }
+
     }
 
     public void onButtonPressed(Uri uri) {
