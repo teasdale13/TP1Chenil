@@ -97,6 +97,7 @@ public class AddBreed extends DialogFragment {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 } );
 
@@ -105,6 +106,8 @@ public class AddBreed extends DialogFragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                binding.firebaseSearchRV.setVisibility( View.GONE );
+                binding.setBreed( new Race(  ) );
                 return false;
             }
         } );

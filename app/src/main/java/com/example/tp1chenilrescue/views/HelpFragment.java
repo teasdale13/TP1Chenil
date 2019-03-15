@@ -1,5 +1,8 @@
 package com.example.tp1chenilrescue.views;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -11,7 +14,13 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 import com.example.tp1chenilrescue.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 
 public class HelpFragment extends Fragment {
@@ -43,13 +52,13 @@ public class HelpFragment extends Fragment {
         //File file = new File(  );
         helpWebView = view.findViewById( R.id.webView );
 
-        helpWebView.loadUrl( "file:///android_asset/help.html" );
-        /*ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService( Context.CONNECTIVITY_SERVICE );
 
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() != NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() != NetworkInfo.State.CONNECTED) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService( Context.CONNECTIVITY_SERVICE );
+
+        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             mStorageRef = FirebaseStorage.getInstance().getReference();
-            mFileRef = mStorageRef.child( "help/ChenilHelp.html" );
+            mFileRef = mStorageRef.child( "help/index.html" );
 
             try {
                 final File file = File.createTempFile( "ChenilHelp",".html" );
@@ -67,8 +76,8 @@ public class HelpFragment extends Fragment {
                 e.printStackTrace();
             }
         }else{
-
-        }*/
+            helpWebView.loadUrl( "file:///android_asset/ChenilHelp.html" );
+        }
 
 
 

@@ -132,14 +132,6 @@ public class DataAccessUtils {
     }
 
 
-    public ArrayList<Chenil> selectAllKennels() {
-        Cursor cursor = database.query( ChenilTable.TABLE_NAME,
-                null, null, null,
-                null, null, null );
-
-        return formatQueryKennel( cursor );
-    }
-
     public ArrayList<Chien> selectDogNotInThisKennel(Integer id) {
         String bigSelect = "SELECT " + ChienTable.TABLE_NAME + "." + ChienTable.ID + ","
                 + ChienTable.TABLE_NAME + "." + ChienTable.NAME + " , "
@@ -173,26 +165,6 @@ public class DataAccessUtils {
         return chienArrayList;
     }
 
-
-    private ArrayList<Chenil> formatQueryKennel(Cursor cursor) {
-        ArrayList<Chenil> chenils = new ArrayList<>();
-
-        while (cursor.moveToNext()) {
-            int id = cursor.getInt( cursor.getColumnIndexOrThrow( ChenilTable.ID ) );
-            String nom = cursor.getString( cursor.getColumnIndexOrThrow( ChenilTable.NAME ) );
-            String address = cursor.getString( cursor.getColumnIndexOrThrow( ChenilTable.ADDRESS ) );
-            String ville = cursor.getString( cursor.getColumnIndexOrThrow( ChenilTable.VILLE ) );
-            String code_postal = cursor.getString( cursor.getColumnIndexOrThrow( ChenilTable.CODE_POSTAL ) );
-            Float longitude = cursor.getFloat( cursor.getColumnIndexOrThrow( ChenilTable.LONGITUDE ) );
-            Float latitude = cursor.getFloat( cursor.getColumnIndexOrThrow( ChenilTable.LATITUDE ) );
-
-            chenils.add( new Chenil( id, nom, address, ville, code_postal, longitude, latitude ) );
-        }
-
-        cursor.close();
-        return chenils;
-    }
-
     /**
      * Méthode récursive qui construit un arbre généalogie pour contrer la consanguinité et renvoie
      * une Liste des chiens compatible a un accouplement.
@@ -219,7 +191,8 @@ public class DataAccessUtils {
                 " SELECT " + ChienTable.TABLE_NAME + "."+ ChienTable.ID + ", " + ChienTable.TABLE_NAME + "." + sameSexToFind +
                 " FROM " + ChienTable.TABLE_NAME +" INNER JOIN tempTable2 ON tempTable2." + sameSexToFind+ " = "
                 + ChienTable.TABLE_NAME + "." + ChienTable.ID + " OR " + ChienTable.TABLE_NAME + "." + sameSexToFind + " = tempTable2.id)" +
-                " SELECT tempTable2.id FROM tempTable2 ) AND  "  + ChienTable.TABLE_NAME + "." + ChienTable.RACE + " = ? AND chien.sexe <> ?;";
+                " SELECT tempTable2.id FROM tempTable2 ) AND  "
+                + ChienTable.TABLE_NAME + "." + ChienTable.RACE + " = ? AND " + ChienTable.TABLE_NAME + "." + ChienTable.SEXE +" <> ?;";
 
         Cursor c = database.rawQuery( recursiveQuery, new String[] {String.valueOf(monChien.getId()),
                 String.valueOf(monChien.getId()),  String.valueOf( monChien.getRaceId() ), monChien.getSexe()} );
@@ -496,18 +469,6 @@ public class DataAccessUtils {
     // Méthode concernant les requêtes sur les chiens -------------------------------
 
 
-    private int getIdByName(String name, String col_name, String col_id, String table_name) {
-
-        String selection = table_name + "." + col_name + " = " + "\'" + name + "\'";
-
-        Cursor c = database.query( table_name, new String[]{table_name + "." + col_id}, selection, null,
-                null, null, null );
-
-        int ID = c.getInt( c.getColumnIndexOrThrow( col_id ) );
-
-        c.close();
-        return ID;
-    }
 
     private String getNameById(String id, String table_name, String col_id, String col_name) {
         String selection = col_id + " = " + "\'" + id + "\'";

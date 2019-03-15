@@ -34,16 +34,9 @@ public class AddDog extends DialogFragment {
     private Chien chien;
     private Context context;
     private int itemToModify;
-    private Chenil chenil;
-    private boolean addDogToList;
     private AddDogDiagfragBinding binding;
     private ArrayList<Race> breedList;
-    private ArrayList<Chien> fatherList;
-    private ArrayList<Chien> motherList;
     private ChienDataAccess chienDataAccess;
-    private EditText dogName;
-    private DatePicker picker;
-    private RadioButton selectedButton;
 
     public AddDog() {
 
@@ -64,14 +57,6 @@ public class AddDog extends DialogFragment {
         breedList = selectAllBreed;
     }
 
-/*    public void setFatherList(ArrayList<Chien> arrayList) {
-        fatherList = arrayList;
-    }
-
-    public void setMotherList(ArrayList<Chien> list) {
-        motherList = list;
-    }*/
-
     public void setDogInDiagFrag(Chien monChien) {
         chien = monChien;
     }
@@ -82,10 +67,6 @@ public class AddDog extends DialogFragment {
 
     public void setIndex(int layoutPosition) {
         itemToModify = layoutPosition;
-    }
-
-    public void setBoolToAddDogInList(boolean addDogToDatabase) {
-        addDogToList = addDogToDatabase;
     }
 
     public void setContextForSpinner(Context mContext) {
@@ -103,12 +84,10 @@ public class AddDog extends DialogFragment {
 
         binding.setChien( chien );
 
-
-        if (!chien.isFemale() || chien.isFemale()) {
+        if (chien.getSexe() != null) {
             binding.radioGroup.check( binding.getChien().isFemale() ? binding.btnFemale.getId() : binding.btnMale.getId() );
         }
-        int btnid = binding.radioGroup.getCheckedRadioButtonId();
-        selectedButton = binding.getRoot().findViewById( btnid );
+
 
         binding.radioGroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -121,9 +100,7 @@ public class AddDog extends DialogFragment {
             }
         } );
 
-
         createBreedSpinner( breedList, binding.spinnerBreedAdd, binding.spinnerDad, binding.spinnerMother );
-
 
         return binding.getRoot();
     }
