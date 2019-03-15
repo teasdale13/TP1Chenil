@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textNoSuggestions"
+            android:maxLength="100"
             android:background="#999999"/>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -53,6 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nom de la race"
+            android:maxLength="100"
             android:inputType="textPersonName"
             android:text="@={breed.name}" />
 
@@ -69,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Pays d'origine"
+            android:maxLength="100"
             android:inputType="textPersonName"
             android:text="@={breed.country}" />
 
@@ -85,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:maxLength="255"
             android:hint="Notes"
             android:inputType="textPersonName"
             android:text="@={breed.note}" />

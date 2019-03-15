@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Nom du chien"
+            android:maxLength="100"
             android:imeOptions="actionDone"
             android:inputType="textPersonName"
             android:padding="10dp"
@@ -189,23 +190,6 @@
             android:layout_weight="1"
             android:background="#000000" />
 
-     <!--   <TextView
-            android:id="@+id/txtKennel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Chenil" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="35dp" />
-
-        <View
-            android:id="@+id/divider6"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />-->
 
         <Button
             android:id="@+id/buttonDogConfirm"

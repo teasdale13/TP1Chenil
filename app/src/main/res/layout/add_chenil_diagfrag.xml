@@ -30,6 +30,7 @@
             android:id="@+id/editNomChenil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="100"
             android:hint="Nom"
             android:text="@={chenil.name}"
             android:inputType="textPersonName"/>
@@ -52,6 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Adresse"
+            android:maxLength="100"
             android:text="@={chenil.address}"
             android:inputType="textPersonName"/>
         <View
@@ -71,6 +73,7 @@
             android:id="@+id/editVille"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="100"
             android:hint="Ville"
             android:text="@={chenil.ville}"
             android:inputType="textPersonName"/>
