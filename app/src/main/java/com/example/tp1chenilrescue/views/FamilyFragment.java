@@ -46,10 +46,19 @@ public class FamilyFragment extends Fragment {
         super.onCreate( savedInstanceState );
     }
 
+    /**
+     * Méthode qui sert a passer la liste des chiens pour peupler le Spinner.
+     * @param chiens liste des chiens
+     */
     public void setDogList(ArrayList<Chien> chiens){
         list = chiens;
     }
 
+    /**
+     * Méthode qui passe la l'accesseur de la base de données pour permettre de faire des requêtes.
+     *
+     * @param chienDataAccess Objet qui accède à la base de données.
+     */
     public void setDataAccess(ChienDataAccess chienDataAccess) {
         dataAccess = chienDataAccess;
     }
@@ -61,10 +70,6 @@ public class FamilyFragment extends Fragment {
 
         listView = view.findViewById( R.id.listview );
         spinner = view.findViewById( R.id.spinnerGenealogie );
-
-
-
-
 
         final Chien mChien = new Chien(  );
         mChien.setId( 0 );
@@ -82,7 +87,6 @@ public class FamilyFragment extends Fragment {
                 listView.setVisibility(monChien.getId() != 0 ? View.VISIBLE : View.GONE  );
                 if (monChien.getId() != 0 ){
                     setListViewArray( dataAccess.selectDogNotInFamily(dataAccess.selectDogById( monChien.getId() )) );
-
                 }
             }
 
@@ -95,6 +99,11 @@ public class FamilyFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Méthode qui peuple la ListView des chiens qui sont compatible pour un accouplement.
+     *
+     * @param list liste de chien qui ne font pas parti de la famille du chien sélectionné.
+     */
     private void setListViewArray(ArrayList<Chien> list) {
         Chien[] chiensArray = new Chien[list.size()];
         chiensArray = list.toArray(chiensArray);

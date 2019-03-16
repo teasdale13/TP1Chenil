@@ -34,6 +34,11 @@ public class DogInfoNFCReader extends DialogFragment {
         super.onCreate( savedInstanceState );
     }
 
+    /**
+     * Méthode qui passe le chien qui a été préalablement scanné par le capteur NFC.
+     *
+     * @param selectDogById chien qui a été scanner par le NFCReader.
+     */
     public void setDogToFragment(Chien selectDogById) {
         monChien = selectDogById;
     }

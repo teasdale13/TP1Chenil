@@ -49,12 +49,12 @@ public class HelpFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.help_fragment, container, false );
 
-        //File file = new File(  );
         helpWebView = view.findViewById( R.id.webView );
 
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService( Context.CONNECTIVITY_SERVICE );
 
+        /* Vérifie si une connection à une réseau WIFI ou cellulaire est disponible */
         if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
                 connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -68,7 +68,6 @@ public class HelpFragment extends Fragment {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         helpWebView.loadUrl( file.toURI().toString());
-
                     }
                 } );
 
@@ -79,25 +78,20 @@ public class HelpFragment extends Fragment {
             helpWebView.loadUrl( "file:///android_asset/ChenilHelp.html" );
         }
 
-
-
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction( uri );
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);

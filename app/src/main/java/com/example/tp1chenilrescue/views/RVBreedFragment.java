@@ -120,6 +120,8 @@ public class RVBreedFragment extends Fragment {
         if (isInserted != -1){
             Toast.makeText( mContext, "La race a été ajouté.",
                     Toast.LENGTH_LONG ).show();
+            raceArrayList.get( raceArrayList.indexOf( maRace ) ).setId( (int) isInserted  );
+            adapter.notifyDataSetChanged();
         }else {
             Toast.makeText( mContext,"Une erreur est survenue",
                     Toast.LENGTH_LONG ).show();

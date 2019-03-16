@@ -63,9 +63,6 @@ public class Race extends BaseObservable {
 
     }
 
-    public String idString(){
-        return String.valueOf( id );
-    }
 
     @Override
     public String toString() {

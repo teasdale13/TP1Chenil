@@ -57,6 +57,11 @@ public class AdapterMedical extends RecyclerView.Adapter<AdapterMedical.MyViewHo
         } );
     }
 
+    /**
+     * Méthode qui affiche un dialog fragment pour modifier le poids au chien.
+     *
+     * @param adapterPosition position du poids dans la liste.
+     */
     private void showMedicalFragment(int adapterPosition) {
         AddMedical medical = new AddMedical();
         medical.setDog( monChien );
@@ -72,6 +77,12 @@ public class AdapterMedical extends RecyclerView.Adapter<AdapterMedical.MyViewHo
         medical.show( manager, "timeToBegin" );
     }
 
+    /**
+     * Méthode qui modifie le poids du chien dans la base de données et affiche un Toast de succès
+     * ou échec selon le cas.
+     *
+     * @param monPoids le poids qui doit être modifié.
+     */
     private void updateMedicalInfoToDB(Poids monPoids) {
         boolean isModified = dataAccess.updateMedical(monPoids);
         if (isModified){
@@ -88,25 +99,51 @@ public class AdapterMedical extends RecyclerView.Adapter<AdapterMedical.MyViewHo
         return poidsArrayList.size();
     }
 
+    /**
+     * Méthode qui renvoie la liste de poids pour le SwipeDelete();
+     *
+     * @return la liste de poids.
+     */
     public ArrayList<Poids> getData() {
         return poidsArrayList;
     }
 
+    /**
+     * Méthode qui supprime de la liste le poids et avise qu'un item a été supprimé.
+     *
+     * @param position position du poids dans la liste.
+     */
     public void deleteItem(int position) {
         poidsArrayList.remove( position );
         notifyItemRemoved( position );
     }
 
+    /**
+     * Méthode qui restore le poids à l'endroit où il était avant la suppression.
+     *
+     * @param position position où il doit être réinséré.
+     * @param poids le poids qui doit être réinséré.
+     */
     public void restoreItem(int position, Poids poids) {
         poidsArrayList.add( position, poids );
         notifyItemInserted( position );
     }
 
+    /**
+     * Méthode qui ajoute un poids dans la liste et avise qu'un item a été ajouté.
+     *
+     * @param poids poids qui doit être ajouté.
+     */
     public void addMedicalToRV(Poids poids) {
         poidsArrayList.add( poids );
         notifyDataSetChanged();
     }
 
+    /**
+     * Méthode qui passe un chien pour pouvoir associer le poids au chien.
+     *
+     * @param mChien le chien a qui le poids doit être associé.
+     */
     public void passDogToAdapter(Chien mChien) {
         monChien = mChien;
     }

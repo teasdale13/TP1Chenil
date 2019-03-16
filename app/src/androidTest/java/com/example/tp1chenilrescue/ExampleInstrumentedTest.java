@@ -189,7 +189,7 @@ public class ExampleInstrumentedTest {
 
         long kennelId = chenilDataAccess.insertKennel( chenil );
 
-        long kennelRow = chenilDataAccess.insertIntoChenilChien( (int)dogId, (int)kennelId );
+        long kennelRow = chenilDataAccess.setKennelIdToDog( (int)dogId, (int)kennelId );
 
     }
 
@@ -212,7 +212,7 @@ public class ExampleInstrumentedTest {
         int rowId = chienDataAccess.deleteDogById( (int)id );
 
         // test si le nombre de row effacé est 1, puisque efface seulement 1 row.
-        assertThat( rowId, is( 1) );
+        assertThat( rowId, is( (int) id) );
     }
 
     @Test

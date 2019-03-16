@@ -86,7 +86,6 @@ public class Chenil extends BaseObservable {
         notifyPropertyChanged( BR.code_postal );
     }
 
-
     public Chenil( @Nullable Integer id, String name, String address, String ville, String codePostal,
                    @Nullable Float mLongitude, @Nullable Float mLatitude){
 
@@ -104,15 +103,19 @@ public class Chenil extends BaseObservable {
     public Chenil() {
     }
 
-    public String idString(){
-        return String.valueOf( id );
-    }
-
+    /**
+     * Méthode qui retourne la valeur de la latitude en format String pour l'affichage.
+     * @return la latitude en String
+     */
     public String latituteString(){
         return String.valueOf( latitude );
 
     }
 
+    /**
+     * Méthode qui retourne la valeur de la longitude en format String pour l'affichage.
+     * @return la longitude en String
+     */
     public String longitudeString(){
         return String.valueOf( longitude );
     }

@@ -49,6 +49,11 @@ public class AdapterDogKennel extends RecyclerView.Adapter<AdapterDogKennel.MyVi
 
     }
 
+    /**
+     * Méthode qui procède à la suppression d'un chien dans la liste et avise qu'un item a été effacé.
+     *
+     * @param chien chien qui a été supprimé.
+     */
     public void removeItem(Chien chien) {
         chiens.remove( chien );
         notifyDataSetChanged();
@@ -58,6 +63,11 @@ public class AdapterDogKennel extends RecyclerView.Adapter<AdapterDogKennel.MyVi
         void onDogAddToKennelListener(Chien chien);
     }
 
+    /**
+     * Méthode qui passe une instance d'un interface pour capter un évenement et délégué le comportement
+     * a une autre méthode.
+     * @param listener instance d'une interface.
+     */
     public void setListener(AddToKennelInterface listener){
         mListener = listener;
     }

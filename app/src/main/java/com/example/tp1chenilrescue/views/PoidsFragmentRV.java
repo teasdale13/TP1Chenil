@@ -118,6 +118,8 @@ public class PoidsFragmentRV extends Fragment {
         if (isInserted != -1){
             Toast.makeText( mContext, "Le poids à été sauvegardé.",
                     Toast.LENGTH_LONG ).show();
+            poidsArrayList.get( poidsArrayList.indexOf( poids ) ).setId( (int) isInserted );
+            adapterMedical.notifyDataSetChanged();
         }else {
             Toast.makeText( mContext,"Une erreur est survenue",
                     Toast.LENGTH_LONG ).show();

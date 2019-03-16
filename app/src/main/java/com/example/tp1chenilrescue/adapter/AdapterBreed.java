@@ -41,6 +41,7 @@ public class AdapterBreed extends RecyclerView.Adapter<AdapterBreed.MyViewHolder
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
 
         holder.binding.setRace( races.get( position ) );
+        /* OnClickListener pour permettre de modifier les informations de la race */
         holder.itemView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,20 +92,44 @@ public class AdapterBreed extends RecyclerView.Adapter<AdapterBreed.MyViewHolder
         return races.size();
     }
 
+    /**
+     * Méthode qui ajoute une race au RecyclerView et notify le changement.
+     *
+     * @param maRace la race a ajouter.
+     */
     public void addBreedToRV(Race maRace) {
         races.add( maRace );
         notifyDataSetChanged();
     }
 
+    /**
+     * Méthode qui renvoie la liste pour pouvoir savoir quelle position du Recyclerview
+     * l'utilisateur désire supprimer
+     *
+     * @return la liste de races.
+     */
     public ArrayList<Race> getData() {
         return races;
     }
 
+    /**
+     * Méthode qui supprime un élément de la liste a une position précise.
+     * Ensuite le notifie à l'adapter.
+     *
+     * @param position la position de la race a supprimer dans la liste.
+     */
     public void deleteItem(int position) {
         races.remove( position );
         notifyItemRemoved( position );
     }
 
+    /**
+     * Si l'utilisateur ne confirme pas qu'il désire supprimer la race, la race est réinsérée
+     * dans la liste à l'index qu'elle était.
+     *
+     * @param position la position dans la liste.
+     * @param race la race qui doit être réinsérée.
+     */
     public void restoreItem(int position, Race race) {
         races.add( position, race );
         notifyItemInserted( position );

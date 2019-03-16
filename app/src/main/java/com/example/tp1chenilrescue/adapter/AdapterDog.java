@@ -72,18 +72,13 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.MyViewHolder> {
             } );
         }
 
-        /*holder.itemView.setOnLongClickListener( new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                DogInfoNFCReader infoNFCReader = new DogInfoNFCReader();
-                infoNFCReader.setDogToFragment( maListe.get( holder.getAdapterPosition() ) );
-                infoNFCReader.show( fragmentManager, "show" );
-                return true;
-            }
-        } );*/
-
     }
 
+    /**
+     * Méthode qui modifie les iformation du chien dans le RecyclerView.
+     *
+     * @param position chien qui doit être afficher dans le dialog fragment.
+     */
     private void modifyDogInfo(int position) {
         final AddDog addDog = new AddDog();
         addDog.setDogInDiagFrag( maListe.get( position ) );
@@ -96,7 +91,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.MyViewHolder> {
             public void dogFragmentInteraction(Chien monChien, int index, int id) {
                 notifyItemChanged( index, monChien );
                 notifyDataSetChanged();
-                updateDogInfoToDB(monChien, id);
+                updateDogInfoToDB(monChien);
 
 
             }
@@ -104,7 +99,13 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.MyViewHolder> {
         addDog.show( fragmentManager, "dialog" );
     }
 
-    private void updateDogInfoToDB(Chien monChien, int id) {
+    /**
+     * Méthode qui mets à jour le chien dans la base de données et affiche un Toast selon si une erreur
+     * est survenue ou non.
+     *
+     * @param monChien le chien qui doit être mis à jour.
+     */
+    private void updateDogInfoToDB(Chien monChien) {
         boolean isUpdated = dataAccess.updateById(monChien);
         if (isUpdated){
             Toast.makeText( mContext, "Les informations du chien ont bien été modifiés.",
@@ -115,6 +116,11 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.MyViewHolder> {
         }
     }
 
+    /**
+     * Méthode qui affiche un fragment qui contient les poids qui sont relié au chien.
+     *
+     * @param position position du chien dans le Recyclerview
+     */
     private void showMedicalFragment(int position) {
         PoidsFragmentRV fragmentRV = new PoidsFragmentRV();
         fragmentRV.setList( dataAccess.selectMEdicalByDogId( maListe.get( position ).getId() ) );
@@ -127,20 +133,42 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.MyViewHolder> {
         return maListe.size();
     }
 
+    /**
+     *Méthode qui renvoie la liste de chien pour déterminer quel chien est supprimé.
+     *
+     *@return la liste de chiens.
+     */
     public ArrayList<Chien> getData() {
         return  maListe;
     }
 
+    /**
+     * Méthode qui procède à la suppression du chien dans la liste et le RecyclerView et qui avise
+     * qu'un item a été effacé.
+     *
+     * @param position position dans le RecyclerView.
+     */
     public void deleteItem(int position) {
         maListe.remove( position );
         notifyItemRemoved( position );
     }
 
+    /**
+     * Méthode qui procède à la restoration du chien dans le RecyclerView puisque l'utilisateur n'a pas confirmé
+     * qu'il désirait effacer le chien.
+     *
+     * @param position position du chien dans la liste.
+     * @param chien chien qui doit être restoré.
+     */
     public void restoreItem(int position, Chien chien) {
         maListe.add( position, chien );
         notifyItemInserted( position );
     }
 
+    /**
+     * Méthode qui procède à l'ajout d'un chien dans la liste/RecyclerView et qui avise qu'un item a été ajouté.
+     * @param monChien le chien qui a été ajouté.
+     */
     public void addItemInRV(Chien monChien) {
         maListe.add( monChien );
         notifyDataSetChanged();

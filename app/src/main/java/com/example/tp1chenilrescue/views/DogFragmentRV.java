@@ -158,6 +158,8 @@ public class DogFragmentRV extends Fragment {
         if (isInserted != -1){
             Toast.makeText( mContext, "Le chien à été ajouté.",
                     Toast.LENGTH_LONG ).show();
+            chiens.get( chiens.indexOf( monChien ) ).setId( (int) isInserted );
+            adapter.notifyDataSetChanged();
         }else {
             Toast.makeText( mContext, "Une erreur est survenue.",
                     Toast.LENGTH_LONG ).show();
@@ -176,13 +178,13 @@ public class DogFragmentRV extends Fragment {
             @Override
             public void onChenilChienInteraction(Chien chien) {
                 try{
-                    long isInserted = chienDataAccess.insertIntoChenilChien( chien.getId(), monChenil.getId() );
+                    long isInserted = chienDataAccess.setKennelIdToDog( chien.getId(), monChenil.getId() );
                     if (isInserted != -1){
                         adapter.addItemInRV( chien );
                         Toast.makeText( mContext, "Le chien à été ajouté au chenil.",
                                 Toast.LENGTH_LONG ).show();
                     }else {
-                        Toast.makeText( mContext, "Le chien est déjà aassocié au chenil.",
+                        Toast.makeText( mContext, "Le chien est déjà associé au chenil.",
                                 Toast.LENGTH_LONG ).show();
                     }
                 }catch (Exception e){
@@ -194,6 +196,9 @@ public class DogFragmentRV extends Fragment {
         fragment.show( fragmentManager, "showTime" );
     }
 
+    /**
+     * Méthode qui gère la suppression des chiens.
+     */
     private void SwipeToDelete() {
         SwipeToDelete swipeToDelete = new SwipeToDelete(mContext) {
             @Override
@@ -215,7 +220,7 @@ public class DogFragmentRV extends Fragment {
                             // si le lien entre le chenil et le chien doit être supprimé.
                             if (rvInDialogFragment){
                                 Toast.makeText( mContext, "Le chien a été dissocié du chenil", Toast.LENGTH_LONG ).show();
-                                chienDataAccess.deleteFromChenilChien( chien.getId(), monChenil.getId()  );
+                                chienDataAccess.setChenilIdToNull( chien.getId(), monChenil.getId()  );
                                 // si le chien en entier doit être supprimé par son ID.
                             }else {
                                 int isdeleted = chienDataAccess.deleteDogById(chien.getId());

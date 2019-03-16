@@ -8,8 +8,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +25,6 @@ import com.example.tp1chenilrescue.models.Chenil;
 import com.example.tp1chenilrescue.models.ChenilDataAccess;
 import com.example.tp1chenilrescue.models.ChienDataAccess;
 import com.example.tp1chenilrescue.models.DatabaseHelper;
-import com.example.tp1chenilrescue.models.HowToFragment;
 import com.example.tp1chenilrescue.models.RaceDataAccess;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int container;
     private Toolbar toolbar;
     private SupportMapFragment supportMapFragment;
+    private boolean connected;
 
 
 
@@ -66,14 +69,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Permet de trapper les clicks events dans le menu.
         NavigationView navigationView = findViewById( R.id.navigation_view );
         navigationView.setNavigationItemSelectedListener(this);
-
+        checkLocalisationPermission();
         drawerLayout = findViewById( R.id.drawer );
         toggle = new ActionBarDrawerToggle( this, drawerLayout, toolbar, R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close );
 
         drawerLayout.addDrawerListener( toggle );
         toggle.syncState();
-        checkLocalisationPermission();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService( Context.CONNECTIVITY_SERVICE );
+
+        connected = connectivityManager.getNetworkInfo( ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED;
+
+
 
         // Affiche un Fragment prédéterminé lorsque
         // l'application est démarré pour la première fois.
@@ -99,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.genealogie:
                 familyFragment();
-                Toast.makeText( getApplicationContext(), "Généalogie", Toast.LENGTH_LONG ).show();
                 break;
             case R.id.stat:
                 statsFragment();
@@ -109,6 +116,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected( item );
     }
 
+    /**
+     * Méthode qui affiche le fragment qui sert a déterminer les possibilités d'accouplements.
+     */
     private void familyFragment() {
         FamilyFragment familyFragment = new FamilyFragment();
         familyFragment.setDogList( chienDataAccess.selectAllDog(true) );
@@ -116,12 +126,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace( container, familyFragment ).commit();
     }
 
+    /**
+     * Méthode qui affiche le fragment qui sert a afficher l'aide Online et Offline.
+     */
     private void help(){
         HelpFragment fragment = new HelpFragment();
         getSupportFragmentManager().beginTransaction().replace( container,fragment ).commit();
 
     }
 
+    /**
+     * Méthode qui affiche un diagramme selon l'age des chiens.
+     */
     private void statsFragment() {
         StatsFragment fragment = new StatsFragment();
         fragment.setContext( getApplicationContext() );
@@ -129,8 +145,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().replace( container,fragment ).commit();
     }
 
+    /**
+     * Méthode qui affiche le fragment des reglages.
+     */
     private void settingsFragment() {
-        HowToFragment fragment = new HowToFragment();
+        SettingFragment fragment = new SettingFragment();
         fragment.setContext( getApplicationContext() );
         getSupportFragmentManager().beginTransaction().replace( container,fragment ).commit();
     }
@@ -172,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showNFCReader();
                 break;
             case R.id.map:
+
                 showMap();
                 break;
             case R.id.poids:
@@ -221,11 +241,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      * map.
      */
     private void showMap() {
-        MapFragment fragment = new MapFragment();
-        fragment.setManager( getSupportFragmentManager() );
-        fragment.setSupportMapFragment(supportMapFragment);
-        fragment.setList( chenilDataAccess.getKennelsLocalisation() );
-        getSupportFragmentManager().beginTransaction().replace( container, fragment ).commit();
+        if (connected){
+            ArrayList<Chenil> list = chenilDataAccess.getKennelsLocalisation();
+            if (!list.isEmpty()) {
+                MapFragment fragment = new MapFragment();
+                fragment.setSupportMapFragment( supportMapFragment );
+                fragment.setList( list );
+                getSupportFragmentManager().beginTransaction().replace( container, fragment ).commit();
+            }else {
+                Toast.makeText( getApplicationContext(), "Aucun chenil enregistré", Toast.LENGTH_LONG ).show();
+            }
+        }else {
+            Toast.makeText( getApplicationContext(), "Aucune connection internet", Toast.LENGTH_LONG ).show();
+        }
+
 
     }
 

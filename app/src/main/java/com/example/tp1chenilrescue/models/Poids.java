@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 
 import com.example.tp1chenilrescue.BR;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.databinding.BaseObservable;
@@ -16,6 +18,7 @@ public class Poids extends BaseObservable {
     private String date;
     private String poids;
     private int dog_id;
+    private Date myDate;
 
 
     public int getDog_id() {
@@ -76,6 +79,7 @@ public class Poids extends BaseObservable {
 
     public void setDate(String date) {
         this.date = date;
+        setDateToInt( date );
         notifyPropertyChanged( BR.date );
     }
 
@@ -113,19 +117,38 @@ public class Poids extends BaseObservable {
 
     }
 
+    /**
+     * Méthode qui prends les données du DatePicker et qui le "format" pour l'affichage à l'utilisateur.
+     * @return la date de naissance en format String
+     */
     @SuppressLint("SimpleDateFormat")
     public String birthDateFormat(){
+
         if (day == 0 && month == 0 && year == 0){
             return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
         }
-        return String.valueOf( day + "/" + (month +1) + "/" + year );
+        return String.valueOf( day + "/" + (month + 1) + "/" + year );
     }
 
+    /**
+     * Méthode qui prends la date du poids de format String et la déquortique pour en 3
+     * pour peupler le DatePicker.
+     * @param dateString date de la pesée.
+     */
+    @SuppressLint("SimpleDateFormat")
     private void setDateToInt(String dateString){
-        String[] stringDate = dateString.split( "/", 3 );
-        this.setDay( Integer.parseInt( stringDate[0] ) );
-        this.setMonth( Integer.parseInt( stringDate[1] ) );
-        this.setYear( Integer.parseInt( stringDate[2] ) );
+        try {
+            Date date = new SimpleDateFormat( "dd/MM/yyyy" ).parse( dateString );
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime( date );
+
+            this.setYear( calendar.get( Calendar.YEAR ) );
+            this.setMonth( calendar.get( Calendar.MONTH ) );
+            this.setDay( calendar.get( Calendar.DAY_OF_MONTH ));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 }

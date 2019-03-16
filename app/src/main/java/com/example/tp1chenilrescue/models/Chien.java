@@ -1,14 +1,19 @@
 package com.example.tp1chenilrescue.models;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 
 import com.example.tp1chenilrescue.BR;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Calendar;
 import java.util.Date;
 
+import androidx.annotation.RequiresApi;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
@@ -156,6 +161,7 @@ public class Chien extends BaseObservable {
 
     public void setDate_naissance(String date_naissance) {
         this.date_naissance = date_naissance;
+        setDateToInt( date_naissance );
         notifyPropertyChanged( BR.date_naissance );
     }
 
@@ -206,6 +212,10 @@ public class Chien extends BaseObservable {
     }
 
 
+    /**
+     * Méthode qui prends les données du DatePicker et qui le "format" pour l'affichage à l'utilisateur.
+     * @return la date de naissance en format String
+     */
     @SuppressLint("SimpleDateFormat")
     public String birthDateFormat(){
         if (dogDay == 0 && dogMonth == 0 && dogYear == 0){
@@ -217,31 +227,51 @@ public class Chien extends BaseObservable {
     }
 
 
+    /**
+     * Méthode qui calcule l'age du chien.
+     *
+     * @param currentDate la date du jour.
+     * @return l'age du chien
+     */
+    @SuppressLint("SimpleDateFormat")
     private int getAgeFromBirth(Date currentDate) {
+        try {
+            Date date = new Date(  );
+            DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime( new SimpleDateFormat( "dd/MM/yyyy" ).parse( date_naissance ) );
+            long dateTime1 = calendar.getTime().getTime();
+            date.setTime( dateTime1 );
+            int d1 = Integer.parseInt(formatter.format( date ));
+            int d2 = Integer.parseInt(formatter.format(currentDate));
+            return (d2 - d1) / 10000;
 
-        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        Date date = new Date(  );
-        long dateTime = Date.parse( date_naissance );
-        date.setTime( dateTime );
-        int d1 = Integer.parseInt(formatter.format( date ));
-        int d2 = Integer.parseInt(formatter.format(currentDate));
-        return (d2 - d1) / 10000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return -1;
 
     }
 
+    /**
+     * Méthode qui prends la date de naissance de format String et la déquortique pour en 3
+     * pour peupler le DatePicker.
+     * @param dateString date de naissance format String.
+     */
+    @SuppressLint("SimpleDateFormat")
     private void setDateToInt(String dateString){
-        String[] stringDate = dateString.split( "/", 3 );
-        this.setDogDay( Integer.parseInt( stringDate[0] ) );
-        if (Integer.parseInt(stringDate[1]) < 10){
-            String zero = "0";
-            this.setDogMonth( Integer.parseInt( zero.concat(stringDate[1] )) );
-        } else {
-            this.setDogMonth( Integer.parseInt( stringDate[1] ));
+        try {
+            Date date = new SimpleDateFormat( "dd/MM/yyyy" ).parse( dateString );
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime( date );
+
+            this.setDogYear( calendar.get( Calendar.YEAR ) );
+            this.setDogMonth( calendar.get( Calendar.MONTH ) );
+            this.setDogDay( calendar.get( Calendar.DAY_OF_MONTH ));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-
-        this.setDogYear( Integer.parseInt( stringDate[2] ) );
-
-        String dateNaissance = birthDateFormat();
     }
 
 

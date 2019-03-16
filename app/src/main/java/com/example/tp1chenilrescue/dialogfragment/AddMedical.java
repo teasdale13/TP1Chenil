@@ -40,18 +40,37 @@ public class AddMedical extends DialogFragment {
         super.onCreate( savedInstanceState );
     }
 
+    /**
+     * Méthode qui passe l'index du poids dans la liste pour facilité la notification lorsque le poids
+     * aura été modifié.
+     * @param index position du poids dans la liste
+     */
     public void setIndexToModify(int index){
         mIndex = index;
     }
 
+    /**
+     * Méthode qui passe une instance d'un interface pour déclancher un évenement et déléguer le comportement
+     *
+     * @param listener instance de l'interface.
+     */
     public void setMedListener(MedicalInteractionListener listener){
         mListener = listener;
     }
 
+    /**
+     * Méthode qui passe le chien pour lui associer le poids.
+     * @param chien chien auquel sera associé le poids créé.
+     */
     public void setDog(Chien chien){
         mChien = chien;
     }
 
+    /**
+     * Méthode qui passe une instance de poids qui sera créé ou modifié.
+     *
+     * @param mPoids poids à modifier au créer.
+     */
     public void setNewPoids(Poids mPoids){
         poids = mPoids;
     }

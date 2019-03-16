@@ -45,18 +45,39 @@ public class AddChenil extends DialogFragment {
 
     }
 
+    /**
+     * Méthode qui passe une instance d'une interface pour trapper un évenement et déléguer le comportement
+     * de l'évenement à une autre méthode.
+     * @param listener instance de l'interface.
+     */
     public void setListener(AddChenilFragmentInteraction listener){
         this.mListener = listener;
     }
 
+    /**
+     * Méthode qui passe l'index du chenil pour permettre la modification du chenil.
+     *
+     * @param position index du chenil qui servira a indiquer au RecyclerView quel chenil
+     *                 a été modifé.
+     */
     public void setChenilIndex(int position){
         mIndex = position;
     }
 
+    /**
+     * Méthode qui permet de passer le Context de l'application pour permettre de capter la localisation
+     * du chenil.
+     *
+     * @param context context qui sert a capter la position GPS du chenil.
+     */
     public void setLocationContext(Context context){
         this.mContext = context;
     }
 
+    /**
+     * Méthode qui passe une instance d'un chenil pour l'ajout ou la modification.
+     * @param chenil chenil qui doit être modifié ou créé.
+     */
     public void setNewChenil(Chenil chenil){
         this.monChenil = chenil;
     }
@@ -90,6 +111,7 @@ public class AddChenil extends DialogFragment {
     }
 
     private void getKennelLocation() {
+        /* Vérification de la permission de capter la position GPS */
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) ==
                 PackageManager.PERMISSION_GRANTED){
 
@@ -122,17 +144,6 @@ public class AddChenil extends DialogFragment {
         }
         this.dismiss();
     }
-
-/*    @Override
-    public void onAttach(Context context) {
-        super.onAttach( context );
-        if (context instanceof AddChenilFragmentInteraction) {
-            mListener = (AddChenilFragmentInteraction) context;
-        } else {
-            throw new RuntimeException( context.toString()
-                    + " must implement AddChenilFragmentInteraction" );
-        }
-    }*/
 
     @Override
     public void onDetach() {

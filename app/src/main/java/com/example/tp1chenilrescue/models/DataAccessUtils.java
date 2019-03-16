@@ -26,12 +26,12 @@ public class DataAccessUtils {
 
 
 
-    public int deleteFromChenilChien(int chienId , int chenilId){
-        String where = ChenilChienTable.CHIEN_ID + " = ?" + " AND " + ChenilChienTable.CHENIL_ID
-                + " = ?";
+    public int setChenilIdToNull(int chienId , int chenilId){
+        String where = ChienTable.ID + " = ?";
+        ContentValues values = new ContentValues(  );
+        values.putNull( ChienTable.CHENIL_ID);
 
-        return database.delete( ChenilChienTable.TABLE_NAME,where,
-                new String[] {String.valueOf( chienId ),String.valueOf( chenilId )} );
+        return database.update( ChienTable.TABLE_NAME, values, where ,new String[] {String.valueOf( chienId ) });
     }
 
 
@@ -46,7 +46,7 @@ public class DataAccessUtils {
     public int deleteMedicalById(int id) {
         String where = PoidsTable.ID + " = ?";
 
-        return database.delete( ChienTable.TABLE_NAME , where, new String[] {String.valueOf( id )});
+        return database.delete( PoidsTable.TABLE_NAME , where, new String[] {String.valueOf( id )});
     }
 
     public boolean updateKennel(Chenil mChenil) {
@@ -133,21 +133,15 @@ public class DataAccessUtils {
 
 
     public ArrayList<Chien> selectDogNotInThisKennel(Integer id) {
-        String bigSelect = "SELECT " + ChienTable.TABLE_NAME + "." + ChienTable.ID + ","
-                + ChienTable.TABLE_NAME + "." + ChienTable.NAME + " , "
-                + ChienTable.TABLE_NAME + "." + ChienTable.RACE + ","
-                + ChienTable.TABLE_NAME + "." + ChienTable.SEXE + " FROM "
-                + ChienTable.TABLE_NAME + " WHERE " + ChienTable.TABLE_NAME + "."
-                + ChienTable.ID + " NOT IN (SELECT " + ChienTable.TABLE_NAME + "." + ChienTable.ID
-                + " FROM " + ChienTable.TABLE_NAME + " INNER JOIN " + ChenilChienTable.TABLE_NAME
-                + " ON " + ChienTable.TABLE_NAME + "." + ChienTable.ID + " = " + ChenilChienTable.TABLE_NAME
-                + "." + ChenilChienTable.CHIEN_ID + " WHERE " + ChenilChienTable.TABLE_NAME
-                + "." + ChenilChienTable.CHENIL_ID + " = ? AND "
-                + ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = ?);";
+
+
+
+
+        String bigSelect = "SELECT * FROM chien WHERE chenil_id is null AND chien.state = ?";
 
 
         ArrayList<Chien> chienArrayList = new ArrayList<>();
-        Cursor c = database.rawQuery( bigSelect,new String[] {String.valueOf( id ),ChienTable.STATE_IN } );
+        Cursor c = database.rawQuery( bigSelect,new String[] {ChienTable.STATE_IN } );
 
         while (c.moveToNext()) {
             Chien chien = new Chien();
@@ -212,9 +206,6 @@ public class DataAccessUtils {
 
     public ArrayList<Chien> getParentFromDB(String sexe, int raceId) {
         ArrayList<Chien> chiens = new ArrayList<>();
-        Chien chien = new Chien();
-        chien.setId( 0 );
-        chiens.add( chien );
 
         Cursor c = selectDogByBreedAndSex( sexe, raceId );
         if (c != null) {
@@ -336,11 +327,9 @@ public class DataAccessUtils {
 
     public ArrayList<Chien> selectDogByKennelToShowInRV(String chenilId) {
         ArrayList<Chien> chiens = new ArrayList<>();
-        String select = "SELECT chien.id, chien.nom, chien.date_naissance, chien.race_id, chien.pere," +
-                "chien.mere, chien.sexe FROM "
-                + ChienTable.TABLE_NAME + " INNER JOIN " + ChenilChienTable.TABLE_NAME +
-                " ON chien.id = chenil_chien.chien_id WHERE chenil_chien.chenil_id = ?" + " AND " +
-                ChienTable.TABLE_NAME + "." + ChienTable.STATE + " = ?";
+        String select = "SELECT * FROM chien WHERE chenil_id = ? AND " + ChienTable.STATE + " = ?";
+
+
 
         Cursor c = database.rawQuery( select, new String[]{chenilId, ChienTable.STATE_IN} );
 
@@ -427,12 +416,12 @@ public class DataAccessUtils {
 
     }
 
-    public long insertIntoChenilChien(int chienId, int chenilId) {
+    public long setKennelIdToDog(int chienId, int chenilId) {
+        String where = ChienTable.ID + " = ?";
         ContentValues values = new ContentValues();
-        values.put( ChenilChienTable.CHENIL_ID, chenilId );
-        values.put( ChenilChienTable.CHIEN_ID, chienId );
+        values.put( ChienTable.CHENIL_ID, chenilId );
 
-        return database.insert( ChenilChienTable.TABLE_NAME, null, values );
+        return database.update( ChienTable.TABLE_NAME, values,where,new String[] {String.valueOf( chienId )} );
 
     }
 
@@ -544,6 +533,9 @@ public class DataAccessUtils {
     }
 
     public int deleteBreedById(int id) {
+        /*String selection = RaceTable.NAME + " = ?";
+
+        database.query( RaceTable.TABLE_NAME, new String[] {RaceTable.ID}, )*/
         String where = RaceTable.ID + " = ?";
 
         return database.delete( RaceTable.TABLE_NAME,where, new String[] {String.valueOf( id )});

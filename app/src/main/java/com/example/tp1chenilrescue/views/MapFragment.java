@@ -28,7 +28,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     private MapFragmentListener mListener;
     private ArrayList<Chenil> chenilArrayList;
-    private FragmentManager fragmentManager;
     private SupportMapFragment supportMapFragment;
 
     public MapFragment() {
@@ -47,38 +46,43 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         int nbrOfNoneShowKennel = 0;
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        for (Chenil chenil: chenilArrayList) {
-            if (chenil.getLongitude() != null && chenil.getLatitude() != null){
+        for (Chenil chenil : chenilArrayList) {
+            if (chenil.getLongitude() != null && chenil.getLatitude() != null) {
                 LatLng latLng = new LatLng( chenil.getLatitude(), chenil.getLongitude() );
                 MarkerOptions mMarker = new MarkerOptions();
-                mMarker.position( latLng ).title(chenil.getName()  );
-                builder.include(mMarker.getPosition());
+                mMarker.position( latLng ).title( chenil.getName() );
+                builder.include( mMarker.getPosition() );
                 googleMap.addMarker( mMarker );
-            }else {
+            } else {
                 nbrOfNoneShowKennel++;
             }
         }
         LatLngBounds bounds = builder.build();
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 70);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds( bounds, 70 );
         googleMap.animateCamera( cu );
         // Affiche un Toast pour dire à l'utilisateur combien de chenil ne possède pas de LatLng.
-        Toast.makeText( getContext(), nbrOfNoneShowKennel > 1? nbrOfNoneShowKennel + " chenils n'ont pu être localisés":
+        Toast.makeText( getContext(), nbrOfNoneShowKennel > 1 ? nbrOfNoneShowKennel + " chenils n'ont pu être localisés" :
                         nbrOfNoneShowKennel + " chenil n'a pu être localisé",
                 Toast.LENGTH_LONG ).show();
+
     }
 
-    public void setManager(FragmentManager manager){
-        fragmentManager = manager;
-    }
+
     public void setSupportMapFragment(SupportMapFragment supportMap) {
         supportMapFragment = supportMap;
     }
 
-    public void setList(ArrayList<Chenil> chenils){
+    /**
+     * Méthode qui sert a passer la liste de chenils pour aller chercher les coordonnées GPS.
+     * @param chenils liste de chenil.
+     */
+    public void setList(ArrayList<Chenil> chenils) {
         chenilArrayList = chenils;
     }
 
@@ -87,10 +91,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate( R.layout.fragment_map, container, false );
-        supportMapFragment = (SupportMapFragment)getChildFragmentManager()
+        supportMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById( R.id.fragment );
 
-        supportMapFragment.getMapAsync( this);
+        supportMapFragment.getMapAsync( this );
+
 
         return view;
     }

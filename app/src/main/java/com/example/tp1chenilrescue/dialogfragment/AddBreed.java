@@ -1,5 +1,8 @@
 package com.example.tp1chenilrescue.dialogfragment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -60,6 +63,10 @@ public class AddBreed extends DialogFragment {
         super.onCreate( savedInstanceState );
     }
 
+    /**
+     * Méthode qui permet de passer la race au fragment pour la modification ou l'ajout d'une nouvelle race.
+     * @param race race qui doit être modifiée ou créée.
+     */
     public void setAddBreed(Race race) {
         maRace = race;
     }
@@ -136,6 +143,7 @@ public class AddBreed extends DialogFragment {
             @Override
             public void onBreedListener(Race race) {
                 /* Bind la race qui a été sélectionnée dans le RecyclerView avec les EditText */
+                maRace = race;
                 binding.setBreed( race );
             }
         } );

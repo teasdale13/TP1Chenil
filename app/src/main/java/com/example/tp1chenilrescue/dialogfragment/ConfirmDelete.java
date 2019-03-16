@@ -31,6 +31,10 @@ public class ConfirmDelete extends DialogFragment {
 
     }
 
+    /**
+     * Méthode qui passe une instance d'un interface pour déclancher un évenement et déléguer le comportement
+     * @param listener instance d,Une interface.
+     */
     public void setListener(ConfirmDeleteListener listener){
         mListener = listener;
     }

@@ -40,11 +40,22 @@ public class ChenilChienDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * Méthode qui passe les Objets requis dans le dialog fragment.
+     *
+     * @param list la liste de chiens qui sont associés au chenil.
+     * @param context context de l'application.
+     */
     public void setOptions(ArrayList<Chien> list, Context context){
         chiens = list;
         mContext = context;
     }
 
+    /**
+     * Méthode qui passe une instance d'une interface pour trapper un évenement et déléguer le comportement
+     * de l'évenement à une autre méthode.
+     * @param listener instance de l'interface.
+     */
     public void setListener(OnChenilChienListener listener){
         mListener = listener;
     }

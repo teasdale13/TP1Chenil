@@ -59,7 +59,7 @@ public class BarDiagram extends View {
         drawTextOnGraph(canvas);
         drawSideLinesOnGraph(canvas, paint);
         paint.setColor(getResources().getColor(R.color.colorAccent));
-        for(int i = 0; i<mValues.length; i++) {
+        for(int i = 0; i<mValues.length - 1; i++) {
             canvas.drawRect(
                     new Rect((i*200)+160,
                             canvasHeight- (int)(getPercentage( mValues[i] ) * (distBetweenLines * 10)) -50,
@@ -109,8 +109,8 @@ public class BarDiagram extends View {
     /**
      * Méthode qui écrit le titre au centre du diagramme.
      *
-     * @param canvas
-     * @param paint
+     * @param canvas Canvas passer par la Méthode drawTextOnGraph().
+     * @param paint ce qui servira à écrire sur le canvas.
      */
     private void drawTitleToGraph(Canvas canvas, Paint paint) {
         int posX = (int)((canvas.getWidth() / 2) - ((paint.descent() + paint.ascent()) / 2));
@@ -120,6 +120,12 @@ public class BarDiagram extends View {
                 canvasHeight - (12 * distBetweenLines),paint );
     }
 
+    /**
+     *Méthode qui écrit la gradation du % à gauche du diagramme.
+     *
+     * @param canvas canvas qui sera "dessiné" dessus.
+     * @param paint ce qui servira à écrire sur le canvas.
+     */
     private void drawSideText(Canvas canvas, Paint paint) {
         paint.setTextSize( 30 );
         for (int x = 0; x < 11; x++){
@@ -127,13 +133,22 @@ public class BarDiagram extends View {
         }
     }
 
+    /**
+     * Méthode qui écrit les tranches d'âge sur l'axe des X.
+     * @param canvas canvas qui sera "dessiné" dessus.
+     * @param paint ce qui servira à écrire sur le canvas.
+     */
     private void drawBottomText(Canvas canvas, Paint paint) {
         String[] bottomLineText = {"0 ans", "1-2 ans", "2-4 ans", "4-8 ans", "8 ans et +"};
         for (int x = 0; x < bottomLineText.length;x++){
-            canvas.drawText( bottomLineText[x] ,(x *200)+70, (canvasHeight -5),paint );
+            canvas.drawText( bottomLineText[x] ,(x *200)+80, (canvasHeight -5),paint );
         }
     }
 
+    /**
+     * Méthode qui trace les lignes de gradation dans le diagramme.
+     * @param canvas canvas qui sera "dessiné" dessus.
+     */
     private void drawHorizontalLinesInGraph(Canvas canvas){
         Paint paint = new Paint(  );
         paint.setColor( Color.GRAY );

@@ -135,12 +135,17 @@ public class ChenilFragmentRV extends Fragment {
         long isInserted = dataAccess.insertKennel( chenil );
         if (isInserted != -1) {
             Toast.makeText( mContext, "Le chenil a été ajouté.", Toast.LENGTH_LONG ).show();
+            mList.get( mList.indexOf( chenil ) ).setId( (int)isInserted );
+            adapter.notifyDataSetChanged();
         }else {
             Toast.makeText( mContext, "Une erreur est survenue.",
                     Toast.LENGTH_LONG ).show();
         }
     }
 
+    /**
+     * Méthode qui gère le processus de suppression des chenils.
+     */
     private void SwipeToDelete() {
         SwipeToDelete swipeToDelete = new SwipeToDelete( mContext ) {
             @Override
@@ -177,6 +182,7 @@ public class ChenilFragmentRV extends Fragment {
         int isDeleted =  dataAccess.deleteKennelById(  chenil.getId() );
         if (isDeleted == 1) {
             Toast.makeText( mContext, "Le chenil à été effacé.", Toast.LENGTH_LONG ).show();
+
         }else {
             Toast.makeText( mContext, "Une erreur est survenue.", Toast.LENGTH_LONG ).show();
         }

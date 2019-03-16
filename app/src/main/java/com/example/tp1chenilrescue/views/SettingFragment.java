@@ -1,7 +1,7 @@
-package com.example.tp1chenilrescue.models;
+package com.example.tp1chenilrescue.views;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.tp1chenilrescue.R;
+import com.example.tp1chenilrescue.models.DatabaseHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -23,25 +24,22 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-public class HowToFragment extends Fragment {
+public class SettingFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private Button firebaseButton;
     private StorageReference storageReference;
-    private Uri filePath;
     private Context context;
     private String DBNAME;
 
-    public HowToFragment() {
+    public SettingFragment() {
         // Required empty public constructor
     }
 
 
-    public static HowToFragment newInstance() {
-        HowToFragment fragment = new HowToFragment();
+    public static SettingFragment newInstance() {
+        SettingFragment fragment = new SettingFragment();
         return fragment;
     }
 
@@ -88,6 +86,7 @@ public class HowToFragment extends Fragment {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText( context,"Sauvegardé dans Firebase", Toast.LENGTH_LONG ).show();
+
                 }
             } ).addOnFailureListener( new OnFailureListener() {
                 @Override
