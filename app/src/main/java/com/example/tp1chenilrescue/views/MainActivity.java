@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawerLayout.addDrawerListener( toggle );
         toggle.syncState();
+
         ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService( Context.CONNECTIVITY_SERVICE );
 
         connected = connectivityManager.getNetworkInfo( ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||

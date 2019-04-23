@@ -45,7 +45,6 @@ public class AddBreed extends DialogFragment {
     private AddBreedDiagfragBinding binding;
     private int mIndex;
     private DatabaseReference reference;
-    private String recherche;
     private RecyclerView recyclerView;
     private FirebaseRVAdapter adapter;
 

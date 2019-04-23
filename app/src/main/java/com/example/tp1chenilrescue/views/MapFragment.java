@@ -106,16 +106,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-
     public interface MapFragmentListener {
-        // TODO: Update argument type and name
         void MapListener(Uri uri);
     }
 }

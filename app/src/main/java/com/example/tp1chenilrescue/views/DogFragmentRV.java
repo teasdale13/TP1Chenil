@@ -173,7 +173,7 @@ public class DogFragmentRV extends Fragment {
      */
     private void showKennelDogFragment() {
         ChenilChienDialogFragment fragment = new ChenilChienDialogFragment();
-        fragment.setOptions( chienDataAccess.selectDogNotInThisKennel( monChenil.getId() ), mContext );
+        fragment.setOptions( chienDataAccess.selectDogNotInThisKennel( ), mContext );
         fragment.setListener( new ChenilChienDialogFragment.OnChenilChienListener() {
             @Override
             public void onChenilChienInteraction(Chien chien) {

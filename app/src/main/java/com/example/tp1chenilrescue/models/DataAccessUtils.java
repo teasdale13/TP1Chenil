@@ -132,10 +132,7 @@ public class DataAccessUtils {
     }
 
 
-    public ArrayList<Chien> selectDogNotInThisKennel(Integer id) {
-
-
-
+    public ArrayList<Chien> selectDogNotInThisKennel() {
 
         String bigSelect = "SELECT * FROM chien WHERE chenil_id is null AND chien.state = ?";
 
@@ -533,9 +530,6 @@ public class DataAccessUtils {
     }
 
     public int deleteBreedById(int id) {
-        /*String selection = RaceTable.NAME + " = ?";
-
-        database.query( RaceTable.TABLE_NAME, new String[] {RaceTable.ID}, )*/
         String where = RaceTable.ID + " = ?";
 
         return database.delete( RaceTable.TABLE_NAME,where, new String[] {String.valueOf( id )});
